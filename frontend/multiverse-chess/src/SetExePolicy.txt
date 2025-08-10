@@ -1,0 +1,3 @@
+Type this in the terminal/bash everytime ExecutionPolicy error occurs -
+
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
