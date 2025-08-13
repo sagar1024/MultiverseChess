@@ -34,9 +34,35 @@
 
 // export default App
 
-import React from "react";
-import GamePage from "./pages/GamePage";
+// import React from "react";
+// import GamePage from "./pages/GamePage";
 
-export default function App() {
-  return <GamePage />;
-}
+// export default function App() {
+//   return <GamePage />;
+// }
+
+import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import Navbar from "./components/layout/Navbar";
+import Footer from "./components/layout/Footer";
+import PageWrapper from "./components/layout/PageWrapper";
+import AppRouter from "./router"; // <-- importing our router
+
+const App: React.FC = () => {
+  return (
+    <Router>
+      <div className="flex flex-col min-h-screen bg-[#1e1e2f] text-white">
+        <Navbar />
+
+        {/* This keeps consistent padding, animation, etc. */}
+        <PageWrapper>
+          <AppRouter /> {/* <-- Here’s where we drop in the routes */}
+        </PageWrapper>
+
+        <Footer />
+      </div>
+    </Router>
+  );
+};
+
+export default App;
