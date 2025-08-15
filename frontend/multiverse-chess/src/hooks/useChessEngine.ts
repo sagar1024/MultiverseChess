@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Chess, Move, Square } from "chess.js";
+import {Chess} from "chess.js";
+import type {Move, Square} from "chess.js"
 
 export interface BoardState {
     id: string;

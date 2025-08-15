@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import { Chess, Move } from "chess.js";
+import { Chess} from "chess.js";
+import type { Move } from "chess.js";
 
 export interface BoardState {
     id: string;
