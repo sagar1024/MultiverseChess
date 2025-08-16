@@ -6,9 +6,36 @@ import PlayerInfo from "../components/game/PlayerInfo";
 import ActiveTurnIndicator from "../components/game/ActiveTurnIndicator";
 import Loader from "../components/common/Loader";
 
+import { useChessEngine } from "../hooks/useChessEngine";
+import { isMoveLegal } from "../utils/chessHelpers";
+import type { Square } from "chess.js";
+
 const GameRoom: React.FC = () => {
     const loading = false; // TODO: replace with game state loading
     const gameId = "ABC123"; // Example placeholder
+
+    // Hook into chess engine state
+    const { getActiveBoard, makeMove } = useChessEngine();
+    const activeBoard = getActiveBoard();
+
+    // Ensure position is always a string
+    const position = activeBoard ? activeBoard.chess.fen() : "start";
+
+    // Must return boolean for Chessboard's onMove
+    const handleMove = (from: string, to: string): boolean => {
+        if (!activeBoard) return false;
+
+        const legal = isMoveLegal(
+            activeBoard.chess,
+            from as Square,
+            to as Square
+        );
+
+        if (!legal) return false;
+
+        makeMove(from as Square, to as Square);
+        return true;
+    };
 
     if (loading) {
         return <Loader />;
@@ -28,14 +55,14 @@ const GameRoom: React.FC = () => {
                             Share Link
                         </button>
                     </div>
-                    <ActiveTurnIndicator currentPlayer="host" />
+                    <ActiveTurnIndicator isActive={true} />
                 </div>
 
                 {/* Main Game Area */}
                 <div className="flex flex-1 overflow-hidden">
                     {/* Chessboard */}
                     <div className="flex-1 flex justify-center items-center p-4">
-                        <Chessboard />
+                        <Chessboard position={position} onMove={handleMove} />
                     </div>
 
                     {/* Right Panel */}
@@ -45,7 +72,13 @@ const GameRoom: React.FC = () => {
 
                         {/* Timeline Tree */}
                         <div className="mt-6 flex-1 overflow-auto">
-                            <BoardTimelineTree />
+                            <BoardTimelineTree
+                                boards={[]} // TODO: hook this to useChessEngine state
+                                onSelectBoard={(id) => {
+                                    console.log("Selected board:", id);
+                                    // You can later connect this to setActiveBoard(id)
+                                }}
+                            />
                         </div>
                     </div>
                 </div>
