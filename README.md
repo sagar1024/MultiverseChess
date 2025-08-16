@@ -38,6 +38,6 @@ Multiverse Chess is a chess variant where players can explore multiple legal mov
 4. JWT + bcrypt (authentication)
 5. Redis (optional for caching and sessions)
 
-# Inspiration
+## Inspiration
 
 Chess has always been about strategy and foresight. With Multiverse Chess, every move explores what could have been—making chess not just a game of skill, but of infinite imagination.
