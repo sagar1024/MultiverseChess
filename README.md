@@ -2,26 +2,23 @@
 
 ## Overview
 
-Multiverse Chess is a chess variant where players can explore multiple legal moves in parallel, creating alternate realities ("boards"). Instead of one linear game, every turn can branch into multiple timelines. The game ends when all boards conclude or a player runs out of time, and the winner is determined by the total wins across all universes. This project is built as a full-stack application with real-time multiplayer support and a modern UI.
+Multiverse Chess is a chess variant where players can explore multiple legal moves in parallel, creating alternate realities ("boards"). Instead of one linear game, every turn can branch into multiple timelines. The game ends when all boards conclude or a player runs out of time, and the winner is determined by the total wins across all universes.
 
 ## Game Rules
 
-Each turn, a player may make up to 3 legal moves.
-Every move creates a new branch (board) in the timeline.
-Multiple boards are active simultaneously.
-The game ends when:
-All boards reach a conclusion (win/loss/draw), or
-A player’s timer runs out (they lose only on ongoing boards).
-The final winner is the player with the most wins across all universes.
+1. Each turn, a player may make up to 3 legal moves.
+2. Every move creates a new branch (board) in the timeline.
+3. Multiple boards are active simultaneously.
+4. The game ends when: All boards reach a conclusion (win/loss/draw), or a player’s timer runs out (they lose only on ongoing boards).
+5. The final winner is the player with the most wins across all universes.
 
 ## Features
 
-Multiverse mechanics with branching timelines.
-Player timers with fair handling of timeouts.
-Interactive UI with drag-and-drop chess pieces.
-Multiplayer support via shareable game links.
-Game over screen with detailed results and scores.
-Dark theme with purple accents.
+1. Multiverse mechanics with branching timelines.
+2. Player timers with fair handling of timeouts.
+3. Interactive UI with drag-and-drop chess pieces.
+4. Multiplayer support via shareable game links.
+5. Game over screen with detailed results and scores.
 
 ## Tech Stack
 
