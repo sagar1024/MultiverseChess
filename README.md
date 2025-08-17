@@ -28,7 +28,7 @@ Multiverse Chess is a chess variant where players can explore multiple legal mov
 2. Tailwind CSS (UI styling)
 3. Zustand / Context API (state management)
 4. framer-motion (animations)
-5. chess.js + react-chessboard (game logic & rendering)
+5. chess.js + react-chessboard
 
 ### Backend (For multiplayer)
 
