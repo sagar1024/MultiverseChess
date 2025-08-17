@@ -33,7 +33,7 @@ Multiverse Chess is a chess variant where players can explore multiple legal mov
 ### Backend (For multiplayer)
 
 1. Node.js + Express
-2. Socket.io (real-time communication)
+2. Socket.io
 3. MongoDB (data storage)
 4. JWT + bcrypt (authentication)
 5. Redis (For caching and sessions)
