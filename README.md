@@ -7,7 +7,7 @@ Multiverse Chess is a chess variant where players can explore multiple legal mov
 ## Game Rules
 
 1. Each turn, a player may make up to 3 legal moves.
-2. Every move creates a new branch (board) in the timeline.
+2. Every move creates a new branch(board) in the timeline.
 3. Multiple boards are active simultaneously.
 4. The game ends when: All boards reach a conclusion (win/loss/draw), or a player’s timer runs out (they lose only on ongoing boards).
 5. The final winner is the player with the most wins across all universes.
