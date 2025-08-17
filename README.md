@@ -2,7 +2,7 @@
 
 ## Overview
 
-Multiverse Chess is a chess variant where players can explore multiple legal moves in parallel, creating alternate realities ("boards"). Instead of one linear game, every turn can branch into multiple timelines. The game ends when all boards conclude or a player runs out of time, and the winner is determined by the total wins across all universes.
+Multiverse Chess is a chess variant where players can explore multiple legal moves in parallel, creating alternate realities. Instead of one linear game, every turn can branch into multiple timelines. The game ends when all boards conclude or a player runs out of time, and the winner is determined by the total wins across all universes.
 
 ## Game Rules
 
