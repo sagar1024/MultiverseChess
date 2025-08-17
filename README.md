@@ -34,7 +34,7 @@ Multiverse Chess is a chess variant where players can explore multiple legal mov
 
 1. Node.js + Express
 2. Socket.io
-3. MongoDB (data storage)
+3. MongoDB + mongoose
 4. JWT + bcrypt
 5. Redis (For caching)
 
