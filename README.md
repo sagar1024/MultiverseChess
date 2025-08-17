@@ -30,7 +30,7 @@ Multiverse Chess is a chess variant where players can explore multiple legal mov
 4. framer-motion (animations)
 5. chess.js + react-chessboard (game logic & rendering)
 
-### Backend (optional for persistence & multiplayer)
+### Backend (For persistence & multiplayer)
 
 1. Node.js + Express
 2. Socket.io (real-time communication)
