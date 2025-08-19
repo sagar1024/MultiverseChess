@@ -40,6 +40,7 @@ Multiverse Chess is a chess variant where players can explore multiple legal mov
 
 ## Inspiration
 
-Chess has always been about strategy and foresight. With Multiverse Chess, every move explores what could have been—making chess not just a game of skill, but of infinite imagination.
+Chess has always been about strategy and foresight. With Multiverse Chess, every move explores what could have been - making chess not just a game of skill, but of infinite imagination.
+
 
 
