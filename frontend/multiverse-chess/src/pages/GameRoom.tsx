@@ -12,16 +12,16 @@ import type { Square } from "chess.js";
 
 const GameRoom: React.FC = () => {
     const loading = false; // TODO: replace with game state loading
-    const gameId = "ABC123"; // Example placeholder
+    const gameId = "ABC123"; // Placeholder
 
-    // Hook into chess engine state
+    //Hook into chess engine state
     const { getActiveBoard, makeMove } = useChessEngine();
     const activeBoard = getActiveBoard();
 
-    // Ensure position is always a string
+    //Ensure position is always a string
     const position = activeBoard ? activeBoard.chess.fen() : "start";
 
-    // Must return boolean for Chessboard's onMove
+    //Must return boolean for Chessboard's onMove
     const handleMove = (from: string, to: string): boolean => {
         if (!activeBoard) return false;
 
