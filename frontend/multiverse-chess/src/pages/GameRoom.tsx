@@ -11,8 +11,8 @@ import { isMoveLegal } from "../utils/chessHelpers";
 import type { Square } from "chess.js";
 
 const GameRoom: React.FC = () => {
-    const loading = false; // TODO: replace with game state loading
-    const gameId = "ABC123"; // Placeholder
+    const loading = false; //TODO: replace with game state loading
+    const gameId = "ABC123"; //Placeholder
 
     //Hook into chess engine state
     const { getActiveBoard, makeMove } = useChessEngine();
