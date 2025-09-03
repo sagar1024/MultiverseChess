@@ -16,7 +16,7 @@ export const useSettingsStore = create<SettingsStore>((set) => ({
     theme: "dark",
     boardStyle: "classic",
     maxMovesPerTurn: 3,
-    timePerPlayer: 300, // default 5 min
+    timePerPlayer: 300, //Default 5 min
 
     setTheme: (theme) => set({ theme }),
     setBoardStyle: (style) => set({ boardStyle: style }),
