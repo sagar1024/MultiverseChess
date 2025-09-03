@@ -4,7 +4,7 @@ interface SettingsStore {
     theme: "dark" | "light";
     boardStyle: "classic" | "modern" | "wood";
     maxMovesPerTurn: number;
-    timePerPlayer: number; // seconds
+    timePerPlayer: number; //Seconds
 
     setTheme: (theme: "dark" | "light") => void;
     setBoardStyle: (style: "classic" | "modern" | "wood") => void;
