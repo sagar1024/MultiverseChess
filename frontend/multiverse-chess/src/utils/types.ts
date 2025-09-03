@@ -6,7 +6,7 @@ export type PlayerColor = "white" | "black";
 export interface Player {
     id: string;
     name: string;
-    timeLeft: number; // in seconds
+    timeLeft: number; //In seconds
 }
 
 export interface BoardNode {
