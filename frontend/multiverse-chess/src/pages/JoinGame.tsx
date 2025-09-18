@@ -1,4 +1,3 @@
-// src/pages/JoinGame.tsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -13,12 +12,12 @@ const JoinGame: React.FC = () => {
 
         let gameId = "";
 
-        // If full link is pasted, extract ID
+        //If full link is pasted, extract ID
         if (input.includes("/game/")) {
             const parts = input.split("/game/");
             gameId = parts[1]?.split("/")[0] || "";
         } else {
-            // Otherwise assume it's just the code
+            //Otherwise assume it's just the code
             gameId = input.trim();
         }
 
