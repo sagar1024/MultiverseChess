@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 interface TimerProps {
-    timeRemaining: number; // in seconds
+    timeRemaining: number; //In seconds
     isActive: boolean;
 }
 
