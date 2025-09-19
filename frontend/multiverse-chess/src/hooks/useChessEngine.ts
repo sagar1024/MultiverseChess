@@ -1,77 +1,3 @@
-// import { useState, useEffect } from "react";
-// import { Chess } from "chess.js";
-// import type { Move, Square } from "chess.js";
-
-// export interface BoardState {
-//     id: string;
-//     chess: Chess;
-//     moves: Move[];
-// }
-
-// export function useChessEngine() {
-//     const [boards, setBoards] = useState<BoardState[]>([]);
-//     const [activeBoardId, setActiveBoardId] = useState<string | null>(null);
-//     const [isLoading, setIsLoading] = useState(true);
-
-//     // Initialize engine (simulate async for now)
-//     useEffect(() => {
-//         // Later: could fetch game state from API here
-//         const initialBoard: BoardState = {
-//             id: "root",
-//             chess: new Chess(),
-//             moves: [],
-//         };
-//         setBoards([initialBoard]);
-//         setActiveBoardId("root");
-//         setIsLoading(false);
-//     }, []);
-
-//     const makeMove = (from: Square, to: Square) => {
-//         setBoards((prev) => {
-//             if (!activeBoardId) return prev;
-
-//             const boardIndex = prev.findIndex((b) => b.id === activeBoardId);
-//             if (boardIndex === -1) return prev;
-
-//             const boardCopy = new Chess(prev[boardIndex].chess.fen());
-//             const move = boardCopy.move({ from, to });
-
-//             if (!move) return prev; // illegal
-
-//             // Branching: create a new board for the alternate timeline
-//             const newBoard: BoardState = {
-//                 id: `${prev[boardIndex].id}-${prev[boardIndex].moves.length + 1}`,
-//                 chess: boardCopy,
-//                 moves: [...prev[boardIndex].moves, move],
-//             };
-
-//             return [...prev, newBoard];
-//         });
-//     };
-
-//     const getActiveBoard = () =>
-//         boards.find((b) => b.id === activeBoardId) ?? null;
-
-//     // Derived position for the active board
-//     const position = getActiveBoard()?.chess.fen() ?? "start";
-
-//     // Adapter for Chessboard component’s onMove
-//     const handleMove = (from: string, to: string) => {
-//         makeMove(from as Square, to as Square);
-//     };
-
-//     return {
-//         boards,
-//         activeBoardId,
-//         setActiveBoardId,
-//         makeMove,
-//         getActiveBoard,
-//         position,
-//         handleMove,
-//         isLoading,
-//     };
-// }
-
 import { useState, useEffect } from "react";
 import { Chess } from "chess.js";
 import type { Move, Square } from "chess.js";
@@ -89,9 +15,9 @@ export function useChessEngine() {
     const [boards, setBoards] = useState<BoardState[]>([]);
     const [activeBoardId, setActiveBoardId] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [currentTurn, setCurrentTurn] = useState<Turn>("w"); // "w" = white to move, "b" = black to move
+    const [currentTurn, setCurrentTurn] = useState<Turn>("w"); //Here "w" = white to move, "b" = black to move
 
-    // Initialize engine (simulate async initialization; later replace with fetch)
+    //Initialize engine (simulate async initialization; later replace with fetch)
     useEffect(() => {
         const initialBoard: BoardState = {
             id: "root",
@@ -133,12 +59,12 @@ export function useChessEngine() {
             return false;
         }
 
-        // create a copy to test the move
+        //Create a copy to test the move
         const boardCopy = new Chess(parentBoard.chess.fen());
         const moveResult = boardCopy.move({ from, to });
 
         if (!moveResult) {
-            // illegal move
+            //Illegal move
             return false;
         }
 
@@ -153,7 +79,7 @@ export function useChessEngine() {
 
         // Append new board and set it active
         setBoards((prev) => {
-            // use prev to ensure we append to latest state
+            //Use prev to ensure we append to latest state
             return [...prev, newBoard];
         });
         setActiveBoardId(newBoardId);
@@ -177,7 +103,7 @@ export function useChessEngine() {
      */
     const handleMove = (from: string | null, to: string | null): boolean => {
         if (!from || !to) return false;
-        // forward to makeMove, casting to Square (chess.js expects string squares)
+        //Forward to makeMove, casting to Square (chess.js expects string squares)
         return makeMove(from as Square, to as Square);
     };
 
