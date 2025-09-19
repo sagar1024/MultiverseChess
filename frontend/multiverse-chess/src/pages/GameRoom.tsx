@@ -125,11 +125,11 @@ const GameRoom: React.FC = () => {
                                     label: b.moves.length
                                         ? b.moves[b.moves.length - 1].san
                                         : "Start",
-                                    parentId: null, // TODO: wire to actual parent board when branching
+                                    parentId: null, //TODO: wire to actual parent board when branching
                                     moveSAN: b.moves.length
                                         ? b.moves[b.moves.length - 1].san
                                         : null,
-                                    children: [], // TODO: wire children for timeline tree
+                                    children: [], //TODO: wire children for timeline tree
                                 }))}
                                 onSelectBoard={(id) => setActiveBoardId(id)}
                             />
