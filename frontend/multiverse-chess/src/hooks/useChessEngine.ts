@@ -1,63 +1,184 @@
+// import { useState, useEffect } from "react";
+// import { Chess } from "chess.js";
+// import type { Move, Square } from "chess.js";
+
+// export interface BoardState {
+//     id: string;
+//     chess: Chess;
+//     moves: Move[];
+// }
+
+// export function useChessEngine() {
+//     const [boards, setBoards] = useState<BoardState[]>([]);
+//     const [activeBoardId, setActiveBoardId] = useState<string | null>(null);
+//     const [isLoading, setIsLoading] = useState(true);
+
+//     // Initialize engine (simulate async for now)
+//     useEffect(() => {
+//         // Later: could fetch game state from API here
+//         const initialBoard: BoardState = {
+//             id: "root",
+//             chess: new Chess(),
+//             moves: [],
+//         };
+//         setBoards([initialBoard]);
+//         setActiveBoardId("root");
+//         setIsLoading(false);
+//     }, []);
+
+//     const makeMove = (from: Square, to: Square) => {
+//         setBoards((prev) => {
+//             if (!activeBoardId) return prev;
+
+//             const boardIndex = prev.findIndex((b) => b.id === activeBoardId);
+//             if (boardIndex === -1) return prev;
+
+//             const boardCopy = new Chess(prev[boardIndex].chess.fen());
+//             const move = boardCopy.move({ from, to });
+
+//             if (!move) return prev; // illegal
+
+//             // Branching: create a new board for the alternate timeline
+//             const newBoard: BoardState = {
+//                 id: `${prev[boardIndex].id}-${prev[boardIndex].moves.length + 1}`,
+//                 chess: boardCopy,
+//                 moves: [...prev[boardIndex].moves, move],
+//             };
+
+//             return [...prev, newBoard];
+//         });
+//     };
+
+//     const getActiveBoard = () =>
+//         boards.find((b) => b.id === activeBoardId) ?? null;
+
+//     // Derived position for the active board
+//     const position = getActiveBoard()?.chess.fen() ?? "start";
+
+//     // Adapter for Chessboard component’s onMove
+//     const handleMove = (from: string, to: string) => {
+//         makeMove(from as Square, to as Square);
+//     };
+
+//     return {
+//         boards,
+//         activeBoardId,
+//         setActiveBoardId,
+//         makeMove,
+//         getActiveBoard,
+//         position,
+//         handleMove,
+//         isLoading,
+//     };
+// }
+
 import { useState, useEffect } from "react";
 import { Chess } from "chess.js";
 import type { Move, Square } from "chess.js";
 
 export interface BoardState {
     id: string;
+    parentId?: string | null;
     chess: Chess;
     moves: Move[];
 }
+
+type Turn = "w" | "b";
 
 export function useChessEngine() {
     const [boards, setBoards] = useState<BoardState[]>([]);
     const [activeBoardId, setActiveBoardId] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [currentTurn, setCurrentTurn] = useState<Turn>("w"); // "w" = white to move, "b" = black to move
 
-    // Initialize engine (simulate async for now)
+    // Initialize engine (simulate async initialization; later replace with fetch)
     useEffect(() => {
-        // Later: could fetch game state from API here
         const initialBoard: BoardState = {
             id: "root",
+            parentId: null,
             chess: new Chess(),
             moves: [],
         };
         setBoards([initialBoard]);
         setActiveBoardId("root");
         setIsLoading(false);
+        setCurrentTurn("w");
     }, []);
 
-    const makeMove = (from: Square, to: Square) => {
+    // Helper: find board index by id
+    const findBoardIndex = (id: string) => boards.findIndex((b) => b.id === id);
+
+    /**
+     * makeMove performs the move on the active board and branches a new board.
+     * It will reject (no-op) if:
+     *  - there is no active board
+     *  - the boardId cannot be found
+     *  - it's not the game's currentTurn (white/black)
+     *  - the move is illegal (chess.js returns null)
+     *
+     * Returns true if move was made (and currentTurn flipped), false otherwise.
+     */
+    const makeMove = (from: Square, to: Square): boolean => {
+        if (!activeBoardId) return false;
+
+        const boardIndex = findBoardIndex(activeBoardId);
+        if (boardIndex === -1) return false;
+
+        const parentBoard = boards[boardIndex];
+        // Check the board's internal turn matches global currentTurn
+        // chess.turn() returns 'w' or 'b'
+        const boardTurn = parentBoard.chess.turn();
+        if (boardTurn !== currentTurn) {
+            // Not this player's turn according to global state -> reject
+            return false;
+        }
+
+        // create a copy to test the move
+        const boardCopy = new Chess(parentBoard.chess.fen());
+        const moveResult = boardCopy.move({ from, to });
+
+        if (!moveResult) {
+            // illegal move
+            return false;
+        }
+
+        // Create new board node with parentId linking
+        const newBoardId = `${parentBoard.id}-${parentBoard.moves.length + 1}`;
+        const newBoard: BoardState = {
+            id: newBoardId,
+            parentId: parentBoard.id,
+            chess: boardCopy,
+            moves: [...parentBoard.moves, moveResult],
+        };
+
+        // Append new board and set it active
         setBoards((prev) => {
-            if (!activeBoardId) return prev;
-
-            const boardIndex = prev.findIndex((b) => b.id === activeBoardId);
-            if (boardIndex === -1) return prev;
-
-            const boardCopy = new Chess(prev[boardIndex].chess.fen());
-            const move = boardCopy.move({ from, to });
-
-            if (!move) return prev; // illegal
-
-            // Branching: create a new board for the alternate timeline
-            const newBoard: BoardState = {
-                id: `${prev[boardIndex].id}-${prev[boardIndex].moves.length + 1}`,
-                chess: boardCopy,
-                moves: [...prev[boardIndex].moves, move],
-            };
-
+            // use prev to ensure we append to latest state
             return [...prev, newBoard];
         });
+        setActiveBoardId(newBoardId);
+
+        // Flip global turn (white -> black or black -> white)
+        setCurrentTurn((prev) => (prev === "w" ? "b" : "w"));
+
+        return true;
     };
 
     const getActiveBoard = () =>
         boards.find((b) => b.id === activeBoardId) ?? null;
 
-    // Derived position for the active board
+    // Derived position for the active board (FEN)
     const position = getActiveBoard()?.chess.fen() ?? "start";
 
-    // Adapter for Chessboard component’s onMove
-    const handleMove = (from: string, to: string) => {
-        makeMove(from as Square, to as Square);
+    /**
+     * handleMove is adapted to the chessboard component.
+     * It accepts (from, to) both strings and returns boolean to
+     * indicate if the drop was accepted.
+     */
+    const handleMove = (from: string | null, to: string | null): boolean => {
+        if (!from || !to) return false;
+        // forward to makeMove, casting to Square (chess.js expects string squares)
+        return makeMove(from as Square, to as Square);
     };
 
     return {
@@ -69,5 +190,7 @@ export function useChessEngine() {
         position,
         handleMove,
         isLoading,
+        currentTurn,
+        setCurrentTurn,
     };
 }
