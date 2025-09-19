@@ -157,22 +157,22 @@ const GameRoom: React.FC = () => {
     const { gameId } = useParams<{ gameId: string }>();
     const navigate = useNavigate();
 
-    // Redirect to home if no gameId in URL
+    //Redirect to home if no gameId in URL
     useEffect(() => {
         if (!gameId) {
             navigate("/");
         }
     }, [gameId, navigate]);
 
-    // Hook into chess engine state
+    //Hook into chess engine state
     const { boards, getActiveBoard, makeMove, setActiveBoardId, isLoading } =
         useChessEngine();
     const activeBoard = getActiveBoard();
 
-    // Safe position fallback
+    //Safe position fallback
     const position = activeBoard ? activeBoard.chess.fen() : "start";
 
-    // Must return boolean for Chessboard's onMove
+    //Must return boolean for Chessboard's onMove
     const handleMove = (from: string, to: string): boolean => {
         if (!activeBoard) return false;
 
@@ -183,14 +183,14 @@ const GameRoom: React.FC = () => {
         return true;
     };
 
-    // Game Over navigation
+    //Game Over navigation
     const endGameWith = (payload: GameOverState) => {
         if (gameId) {
             navigate(`/game/${gameId}/over`, { state: payload });
         }
     };
 
-    // Demo "End Game" button
+    //Demo "End Game" button
     const endGame = () => {
         const state: GameOverState = {
             winner: "Host",
@@ -201,7 +201,7 @@ const GameRoom: React.FC = () => {
         endGameWith(state);
     };
 
-    // Show loader if engine still initializing
+    //Show loader if engine still initializing
     if (isLoading || !gameId) {
         return <Loader />;
     }
