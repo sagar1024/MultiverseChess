@@ -12,7 +12,7 @@ export interface BoardState {
 interface PlayerInfo {
     id: string;
     name: string;
-    timeLeft: number; // seconds
+    timeLeft: number; //Seconds
 }
 
 interface GameStore {
