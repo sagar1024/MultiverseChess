@@ -29,12 +29,12 @@ const GameRoom: React.FC = () => {
         }
     }, [gameId, navigate]);
 
-    // Hook into chess engine state
+    //Hook into chess engine state
     const { boards, getActiveBoard, makeMove, setActiveBoardId, isLoading, currentTurn } =
         useChessEngine();
     const activeBoard = getActiveBoard();
 
-    // Track initial clock (e.g., 5 minutes each)
+    //Track initial clock (e.g., 5 minutes each)
     const INITIAL_TIME = 300;
 
     //Safe position fallback
