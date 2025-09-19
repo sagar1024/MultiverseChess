@@ -33,10 +33,9 @@ const GameRoom: React.FC = () => {
     const { boards, getActiveBoard, makeMove, setActiveBoardId, isLoading, currentTurn } =
         useChessEngine();
     const activeBoard = getActiveBoard();
-    
+
     // Track initial clock (e.g., 5 minutes each)
     const INITIAL_TIME = 300;
-
 
     //Safe position fallback
     const position = activeBoard ? activeBoard.chess.fen() : "start";
@@ -85,28 +84,38 @@ const GameRoom: React.FC = () => {
                         <button
                             className="bg-purple-500 px-3 py-1 rounded hover:bg-purple-600 transition"
                             onClick={() =>
-                                navigator.clipboard.writeText(
-                                    `${window.location.origin}/game/${gameId}`
-                                )
-                            }
-                        >
+                                navigator.clipboard.writeText(`${window.location.origin}/game/${gameId}`)
+                            }>
                             Share Link
                         </button>
                     </div>
-                    <ActiveTurnIndicator isActive={true} />
+                    {/* show who is active */}
+                    <ActiveTurnIndicator isActive={currentTurn === "w"} />
                 </div>
 
                 {/* Main Game Area */}
                 <div className="flex flex-1 overflow-hidden">
                     {/* Chessboard */}
                     <div className="flex-1 flex justify-center items-center p-4">
-                        <Chessboard position={position} onMove={handleMove} />
+                        <Chessboard
+                            position={position}
+                            onMove={handleMove}
+                            orientation={currentTurn === "w" ? "white" : "black"}
+                        />
                     </div>
 
                     {/* Right Panel */}
                     <div className="w-72 bg-gray-900 border-l border-gray-800 flex flex-col p-4">
-                        <PlayerInfo name="Host" timeRemaining={300} isActive />
-                        <PlayerInfo name="Guest" timeRemaining={280} isActive={false} />
+                        <PlayerInfo
+                            name="Host"
+                            timeRemaining={INITIAL_TIME}
+                            isActive={currentTurn === "w"}
+                        />
+                        <PlayerInfo
+                            name="Guest"
+                            timeRemaining={INITIAL_TIME}
+                            isActive={currentTurn === "b"}
+                        />
 
                         {/* Timeline Tree */}
                         <div className="mt-6 flex-1 overflow-auto">
