@@ -31,7 +31,7 @@ export function useChessEngine() {
         setCurrentTurn("w");
     }, []);
 
-    // Helper: find board index by id
+    //Helper: find board index by id
     const findBoardIndex = (id: string) => boards.findIndex((b) => b.id === id);
 
     /**
@@ -51,11 +51,11 @@ export function useChessEngine() {
         if (boardIndex === -1) return false;
 
         const parentBoard = boards[boardIndex];
-        // Check the board's internal turn matches global currentTurn
-        // chess.turn() returns 'w' or 'b'
+        //Check the board's internal turn matches global currentTurn
+        //chess.turn() returns 'w' or 'b'
         const boardTurn = parentBoard.chess.turn();
         if (boardTurn !== currentTurn) {
-            // Not this player's turn according to global state -> reject
+            //Not this player's turn according to global state -> reject
             return false;
         }
 
@@ -68,7 +68,7 @@ export function useChessEngine() {
             return false;
         }
 
-        // Create new board node with parentId linking
+        //Create new board node with parentId linking
         const newBoardId = `${parentBoard.id}-${parentBoard.moves.length + 1}`;
         const newBoard: BoardState = {
             id: newBoardId,
@@ -77,14 +77,14 @@ export function useChessEngine() {
             moves: [...parentBoard.moves, moveResult],
         };
 
-        // Append new board and set it active
+        //Append new board and set it active
         setBoards((prev) => {
             //Use prev to ensure we append to latest state
             return [...prev, newBoard];
         });
         setActiveBoardId(newBoardId);
 
-        // Flip global turn (white -> black or black -> white)
+        //Flip global turn (white -> black or black -> white)
         setCurrentTurn((prev) => (prev === "w" ? "b" : "w"));
 
         return true;
@@ -93,13 +93,13 @@ export function useChessEngine() {
     const getActiveBoard = () =>
         boards.find((b) => b.id === activeBoardId) ?? null;
 
-    // Derived position for the active board (FEN)
+    //Derived position for the active board (FEN)
     const position = getActiveBoard()?.chess.fen() ?? "start";
 
     /**
      * handleMove is adapted to the chessboard component.
      * It accepts (from, to) both strings and returns boolean to
-     * indicate if the drop was accepted.
+     * Indicate if the drop was accepted.
      */
     const handleMove = (from: string | null, to: string | null): boolean => {
         if (!from || !to) return false;

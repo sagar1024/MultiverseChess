@@ -22,7 +22,7 @@ interface GameStore {
     activeTurn: "white" | "black";
     gameStatus: "waiting" | "playing" | "finished";
 
-    // Actions
+    //Actions
     initGame: (whiteName: string, blackName: string, timePerPlayer: number) => void;
     makeMove: (boardId: string, move: { from: string; to: string }) => void;
     setActiveBoard: (boardId: string) => void;
