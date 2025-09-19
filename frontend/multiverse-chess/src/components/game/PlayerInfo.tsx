@@ -4,7 +4,7 @@ import Timer from "./Timer";
 
 interface PlayerInfoProps {
     name: string;
-    timeRemaining: number; // seconds
+    timeRemaining: number; //Seconds
     isActive: boolean;
 }
 
