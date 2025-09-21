@@ -86,7 +86,6 @@ export function useChessEngine() {
 
         //Flip global turn (white -> black or black -> white)
         setCurrentTurn((prev) => (prev === "w" ? "b" : "w"));
-
         return true;
     };
 

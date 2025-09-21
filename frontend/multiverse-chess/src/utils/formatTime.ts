@@ -1,4 +1,4 @@
-// Converts seconds into a MM:SS string format
+//Converts seconds into a MM:SS string format
 export const formatTime = (seconds: number) => {
     const m = Math.floor(seconds / 60);
     const s = seconds % 60;

@@ -1,8 +1,8 @@
-// Game configuration
+//Game configuration
 export const DEFAULT_TIME_PER_PLAYER = 300; // 5 min
 export const DEFAULT_MAX_MOVES_PER_TURN = 3;
 
-// Theme colors
+//Theme colors
 export const THEME_COLORS = {
     dark: {
         background: "#1e1e2f",
@@ -16,7 +16,7 @@ export const THEME_COLORS = {
     }
 };
 
-// Socket event names
+//Socket event names
 export const SOCKET_EVENTS = {
     CONNECT: "connect",
     DISCONNECT: "disconnect",
