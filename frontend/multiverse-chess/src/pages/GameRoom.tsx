@@ -42,7 +42,7 @@ const GameRoom: React.FC = () => {
     //Safe position fallback
     const position = activeBoard ? activeBoard.chess.fen() : "start";
 
-    //Timers: use constants (seconds)
+    //Timers: use constants(seconds)
     const INITIAL_TIME = DEFAULT_TIME_PER_PLAYER ?? 300;
 
     //Timer hooks: only run when it's their turn
