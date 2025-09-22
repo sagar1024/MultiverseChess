@@ -120,7 +120,6 @@
 //     };
 // }
 
-// src/hooks/useChessEngine.ts
 import { useState, useEffect } from "react";
 import { Chess } from "chess.js";
 import type { Move, Square } from "chess.js";
@@ -172,7 +171,7 @@ export function useChessEngine() {
 
         const parent = boards[idx];
 
-        // ensure board internal turn matches global currentTurn
+        //Ensure board internal turn matches global currentTurn
         if (parent.chess.turn() !== currentTurn) return false;
 
         const copy = new Chess(parent.chess.fen());
@@ -187,11 +186,11 @@ export function useChessEngine() {
             moves: [...parent.moves, moveResult],
         };
 
-        // append new board
+        //Append new board
         setBoards((prev) => [...prev, newBoard]);
         setActiveBoardId(newBoardId);
 
-        // flip turn
+        //Flip turn
         setCurrentTurn((t) => (t === "w" ? "b" : "w"));
 
         return true;
@@ -215,7 +214,7 @@ export function useChessEngine() {
     const getTimeline = (): TimelineNode[] => {
         const nodeMap = new Map<string, TimelineNode>();
 
-        // create nodes for every board
+        //Create nodes for every board
         for (const b of boards) {
             const label = b.moves.length ? b.moves[b.moves.length - 1].san : "Start";
             nodeMap.set(b.id, {
@@ -227,7 +226,7 @@ export function useChessEngine() {
             });
         }
 
-        // attach children
+        //Attach children
         const roots: TimelineNode[] = [];
         for (const node of nodeMap.values()) {
             if (node.parentId && nodeMap.has(node.parentId)) {
