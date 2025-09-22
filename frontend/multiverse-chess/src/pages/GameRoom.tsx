@@ -6,7 +6,6 @@ import BoardTimelineTree from "../components/game/BoardTimelineTree";
 import PlayerInfo from "../components/game/PlayerInfo";
 import ActiveTurnIndicator from "../components/game/ActiveTurnIndicator";
 import Loader from "../components/common/Loader";
-
 import { useChessEngine } from "../hooks/useChessEngine";
 import { isMoveLegal } from "../utils/chessHelpers";
 import type { Square } from "chess.js";
@@ -30,8 +29,14 @@ const GameRoom: React.FC = () => {
     }, [gameId, navigate]);
 
     //Hook into chess engine state
-    const { boards, getActiveBoard, makeMove, setActiveBoardId, isLoading, currentTurn } =
-        useChessEngine();
+    const {
+        getActiveBoard,
+        makeMove,
+        setActiveBoardId,
+        isLoading,
+        currentTurn,
+        getTimeline,
+    } = useChessEngine();
     const activeBoard = getActiveBoard();
 
     //Safe position fallback
@@ -94,11 +99,10 @@ const GameRoom: React.FC = () => {
         const legal = isMoveLegal(activeBoard.chess, from as Square, to as Square);
         if (!legal) return false;
 
-        const ok = makeMove(from as Square, to as Square);
-        return ok;
+        return makeMove(from as Square, to as Square);
     };
 
-    //Demo "End Game" button (keeps previous behavior)
+    //Demo "End Game" button
     const endGameDemo = () => {
         const payload: GameOverState = {
             winner: "Host",
@@ -123,9 +127,8 @@ const GameRoom: React.FC = () => {
                         <button
                             className="bg-purple-500 px-3 py-1 rounded hover:bg-purple-600 transition"
                             onClick={() =>
-                                navigator.clipboard.writeText(`${window.location.origin}/game/${gameId}`)
-                            }
-                        >
+                                navigator.clipboard.writeText(
+                                    `${window.location.origin}/game/${gameId}`)}>
                             Share Link
                         </button>
                     </div>
@@ -144,28 +147,28 @@ const GameRoom: React.FC = () => {
                             position={position}
                             onMove={handleMove}
                             orientation={currentTurn === "w" ? "white" : "black"}
-                            //You may want to disable dragging for non-active players in a multi-user setup.
-                            //For local single-machine play we allow dragging but moves will be rejected if not allowed.
                             allowMoves={true}
                         />
                     </div>
 
                     {/* Right Panel */}
                     <div className="w-72 bg-gray-900 border-l border-gray-800 flex flex-col p-4">
-                        <PlayerInfo name="Host" timeRemaining={whiteTimer.time} isActive={currentTurn === "w"} />
+                        <PlayerInfo
+                            name="Host"
+                            timeRemaining={whiteTimer.time}
+                            isActive={currentTurn === "w"}
+                        />
                         <div className="my-2" />
-                        <PlayerInfo name="Guest" timeRemaining={blackTimer.time} isActive={currentTurn === "b"} />
+                        <PlayerInfo
+                            name="Guest"
+                            timeRemaining={blackTimer.time}
+                            isActive={currentTurn === "b"}
+                        />
 
                         {/* Timeline Tree */}
                         <div className="mt-6 flex-1 overflow-auto">
                             <BoardTimelineTree
-                                boards={boards.map((b) => ({
-                                    id: b.id,
-                                    label: b.moves.length ? b.moves[b.moves.length - 1].san : "Start",
-                                    parentId: b.parentId ?? null,
-                                    moveSAN: b.moves.length ? b.moves[b.moves.length - 1].san : null,
-                                    children: [], //TODO: compute children from boards array for real branching display
-                                }))}
+                                nodes={getTimeline()}
                                 onSelectBoard={(id) => setActiveBoardId(id)}
                             />
                         </div>
@@ -173,8 +176,7 @@ const GameRoom: React.FC = () => {
                         {/* TEMP: trigger end game for testing */}
                         <button
                             className="mt-4 bg-purple-600 rounded px-3 py-2 hover:bg-purple-700"
-                            onClick={endGameDemo}
-                        >
+                            onClick={endGameDemo}>
                             End Game (Demo)
                         </button>
                     </div>
