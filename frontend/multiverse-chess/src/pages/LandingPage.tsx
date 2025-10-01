@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { createGame } from "../utils/storage";
 import { v4 as uuidv4 } from "uuid";
 import IntroSection from "../components/landing/IntroSection";
 import RulesSection from "../components/landing/RulesSection";
@@ -10,8 +11,9 @@ const LandingPage: React.FC = () => {
     const navigate = useNavigate();
 
     const handleCreateGame = () => {
-        const gameId = uuidv4().slice(0, 8); //Generate short unique ID
-        navigate(`/game/${gameId}`);
+        const newId = uuidv4();
+        createGame(newId, "Host");
+        navigate(`/game/${newId}`);
     };
 
     const handleJoinGame = () => {
