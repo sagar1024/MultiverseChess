@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getGame, joinGame } from "../utils/storage";
 
 const JoinPage: React.FC = () => {
     const [input, setInput] = useState("");
@@ -21,11 +22,23 @@ const JoinPage: React.FC = () => {
             gameId = input.trim();
         }
 
-        if (gameId) {
-            navigate(`/game/${gameId}`);
-        } else {
+        if (!gameId) {
             alert("Invalid game link or code");
+            return;
         }
+
+        //Validate against localStorage
+        const existing = getGame(gameId);
+        if (!existing) {
+            navigate("/not-found");
+            return;
+        }
+
+        //Register as guest
+        joinGame(gameId, "Guest");
+
+        //Navigate to the game
+        navigate(`/game/${gameId}`);
     };
 
     return (
