@@ -1,18 +1,19 @@
 import React from "react";
-import PageWrapper from "../components/layout/PageWrapper";
-import Button from "../components/common/Button";
+import { useNavigate } from "react-router-dom";
 
 const NotFound: React.FC = () => {
+    const navigate = useNavigate();
     return (
-        <PageWrapper>
-            <div className="flex flex-col justify-center items-center min-h-screen bg-gray-950 text-white text-center">
-                <h1 className="text-5xl font-bold text-purple-500 mb-4">404</h1>
-                <p className="text-lg mb-6">Oops! The page you are looking for does not exist.</p>
-                <Button variant="primary" onClick={() => (window.location.href = "/")}>
-                    Return Home
-                </Button>
-            </div>
-        </PageWrapper>
+        <div className="h-screen flex flex-col justify-center items-center bg-gray-950 text-white">
+            <h1 className="text-3xl font-bold mb-4">Game Not Found</h1>
+            <p className="mb-6">The game ID you entered does not exist.</p>
+            <button
+                onClick={() => navigate("/")}
+                className="px-4 py-2 bg-purple-600 rounded hover:bg-purple-700"
+            >
+                Back to Home
+            </button>
+        </div>
     );
 };
 
