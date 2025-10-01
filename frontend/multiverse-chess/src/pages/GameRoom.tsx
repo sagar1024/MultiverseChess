@@ -138,9 +138,7 @@ const GameRoom: React.FC = () => {
               onClick={() =>
                 navigator.clipboard.writeText(
                   `${window.location.origin}/game/${gameId}`
-                )
-              }
-            >
+                )}>
               Share Link
             </button>
           </div>
@@ -188,8 +186,7 @@ const GameRoom: React.FC = () => {
             {/* TEMP: trigger end game for testing */}
             <button
               className="mt-4 bg-purple-600 rounded px-3 py-2 hover:bg-purple-700"
-              onClick={endGameDemo}
-            >
+              onClick={endGameDemo}>
               End Game (Demo)
             </button>
           </div>
