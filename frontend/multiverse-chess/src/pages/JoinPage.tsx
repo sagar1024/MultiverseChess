@@ -54,8 +54,7 @@ const JoinPage: React.FC = () => {
                 />
                 <button
                     type="submit"
-                    className="px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 transition font-medium"
-                >
+                    className="px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 transition font-medium">
                     Join Game
                 </button>
             </form>
