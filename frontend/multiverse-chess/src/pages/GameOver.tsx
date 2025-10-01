@@ -51,14 +51,12 @@ const GameOver: React.FC = () => {
         <div className="flex gap-4 justify-center">
           <Link
             to="/"
-            className="bg-purple-500 px-4 py-2 rounded-lg hover:bg-purple-600 transition"
-          >
+            className="bg-purple-500 px-4 py-2 rounded-lg hover:bg-purple-600 transition">
             Go Home
           </Link>
           <Link
             to={`/game/${gameId}`}
-            className="bg-gray-700 px-4 py-2 rounded-lg hover:bg-gray-800 transition"
-          >
+            className="bg-gray-700 px-4 py-2 rounded-lg hover:bg-gray-800 transition">
             Rematch
           </Link>
         </div>
