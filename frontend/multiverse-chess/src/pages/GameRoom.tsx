@@ -6,7 +6,7 @@ import BoardTimelineTree from "../components/game/BoardTimelineTree";
 import PlayerInfo from "../components/game/PlayerInfo";
 import ActiveTurnIndicator from "../components/game/ActiveTurnIndicator";
 import Loader from "../components/common/Loader";
-
+import { getGame } from "../utils/storage";
 import { useChessEngine } from "../hooks/useChessEngine";
 import { isMoveLegal } from "../utils/chessHelpers";
 import type { Square } from "chess.js";
@@ -26,7 +26,15 @@ const GameRoom: React.FC = () => {
 
   //Redirect to home if no gameId in URL
   useEffect(() => {
-    if (!gameId) navigate("/");
+    if (!gameId) {
+      navigate("/");
+      return;
+    }
+    const game = getGame(gameId);
+    if (!game) {
+      navigate("/not-found");
+      return;
+    }
   }, [gameId, navigate]);
 
   //Hook into chess engine state
