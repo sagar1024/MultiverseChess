@@ -19,11 +19,22 @@ export interface TimelineNode {
     parentId?: string | null;
 }
 
+export interface GameOverInfo {
+    isOver: boolean;
+    winner: "white" | "black" | "draw" | null;
+    reason?: string;
+    boardId?: string;
+}
+
 export function useChessEngine() {
     const [boards, setBoards] = useState<BoardState[]>([]);
     const [activeBoardId, setActiveBoardId] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [currentTurn, setCurrentTurn] = useState<Turn>("w");
+    const [gameOver, setGameOver] = useState<GameOverInfo>({
+        isOver: false,
+        winner: null,
+    });
 
     useEffect(() => {
         const initialBoard: BoardState = {
@@ -36,11 +47,11 @@ export function useChessEngine() {
         setActiveBoardId("root");
         setCurrentTurn("w");
         setIsLoading(false);
+        setGameOver({ isOver: false, winner: null });
     }, []);
 
     const findBoardIndex = (id: string) => boards.findIndex((b) => b.id === id);
 
-    // makeMove returns boolean (true if move applied)
     const makeMove = (from: Square, to: Square): boolean => {
         if (!activeBoardId) return false;
 
@@ -49,7 +60,7 @@ export function useChessEngine() {
 
         const parent = boards[idx];
 
-        //Ensure board internal turn matches global currentTurn
+        //Enforce turn
         if (parent.chess.turn() !== currentTurn) return false;
 
         const copy = new Chess(parent.chess.fen());
@@ -64,12 +75,49 @@ export function useChessEngine() {
             moves: [...parent.moves, moveResult],
         };
 
-        //Append new board
         setBoards((prev) => [...prev, newBoard]);
         setActiveBoardId(newBoardId);
 
         //Flip turn
-        setCurrentTurn((t) => (t === "w" ? "b" : "w"));
+        setCurrentTurn(copy.turn());
+
+        //Check for game over
+        if (copy.isCheckmate()) {
+            setGameOver({
+                isOver: true,
+                winner: copy.turn() === "w" ? "black" : "white",
+                reason: "checkmate",
+                boardId: newBoardId,
+            });
+        } else if (copy.isStalemate()) {
+            setGameOver({
+                isOver: true,
+                winner: "draw",
+                reason: "stalemate",
+                boardId: newBoardId,
+            });
+        } else if (copy.isInsufficientMaterial()) {
+            setGameOver({
+                isOver: true,
+                winner: "draw",
+                reason: "insufficient material",
+                boardId: newBoardId,
+            });
+        } else if (copy.isThreefoldRepetition()) {
+            setGameOver({
+                isOver: true,
+                winner: "draw",
+                reason: "threefold repetition",
+                boardId: newBoardId,
+            });
+        } else if (copy.isDraw()) {
+            setGameOver({
+                isOver: true,
+                winner: "draw",
+                reason: "draw",
+                boardId: newBoardId,
+            });
+        }
 
         return true;
     };
@@ -79,20 +127,14 @@ export function useChessEngine() {
 
     const position = getActiveBoard()?.chess.fen() ?? "start";
 
-    // Chessboard adapter
     const handleMove = (from: string | null, to: string | null): boolean => {
         if (!from || !to) return false;
         return makeMove(from as Square, to as Square);
     };
 
-    /**
-     * Build timeline tree from flat boards[]
-     * Returns an array of root TimelineNodes (usually just root)
-     */
     const getTimeline = (): TimelineNode[] => {
         const nodeMap = new Map<string, TimelineNode>();
 
-        //Create nodes for every board
         for (const b of boards) {
             const label = b.moves.length ? b.moves[b.moves.length - 1].san : "Start";
             nodeMap.set(b.id, {
@@ -104,7 +146,6 @@ export function useChessEngine() {
             });
         }
 
-        //Attach children
         const roots: TimelineNode[] = [];
         for (const node of nodeMap.values()) {
             if (node.parentId && nodeMap.has(node.parentId)) {
@@ -114,8 +155,6 @@ export function useChessEngine() {
             }
         }
 
-        // Optionally sort children by creation order (boards array order)
-        // Ensure order is consistent with the boards array
         const sortChildren = (n: TimelineNode) => {
             if (!n.children || n.children.length === 0) return;
             n.children.sort((a, b) => {
@@ -142,5 +181,6 @@ export function useChessEngine() {
         currentTurn,
         setCurrentTurn,
         getTimeline,
+        gameOver, //New!
     };
 }
