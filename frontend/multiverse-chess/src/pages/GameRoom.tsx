@@ -45,6 +45,7 @@ const GameRoom: React.FC = () => {
     isLoading,
     currentTurn,
     getTimeline,
+    gameOver, // <-- NEW
   } = useChessEngine();
   const activeBoard = getActiveBoard();
 
@@ -54,7 +55,6 @@ const GameRoom: React.FC = () => {
   //Timers: use constants (seconds)
   const INITIAL_TIME = DEFAULT_TIME_PER_PLAYER ?? 300;
 
-  //Timer hooks: only run when it's their turn
   const whiteTimer = useTimer({
     initialTime: INITIAL_TIME,
     isRunning: currentTurn === "w",
@@ -69,24 +69,20 @@ const GameRoom: React.FC = () => {
 
   //Called when any player's timer reaches 0
   function handleTimeOver(side: "white" | "black") {
-    //Winner is the opposite side
     const winner = side === "white" ? "Guest" : "Host";
 
-    //Basic payload; replace with real board-level computation later
-    const hostWins = 0;
-    const guestWins = 0;
     const payload: GameOverState = {
       winner: winner as GameOverState["winner"],
-      score: `${hostWins} - ${guestWins}`,
+      score: winner === "Host" ? "1 - 0" : "0 - 1",
       host: {
-        wins: hostWins,
-        losses: guestWins,
+        wins: winner === "Host" ? 1 : 0,
+        losses: winner === "Guest" ? 1 : 0,
         draws: 0,
         timeLossBoards: side === "white" ? 1 : 0,
       },
       guest: {
-        wins: guestWins,
-        losses: hostWins,
+        wins: winner === "Guest" ? 1 : 0,
+        losses: winner === "Host" ? 1 : 0,
         draws: 0,
         timeLossBoards: side === "black" ? 1 : 0,
       },
@@ -97,11 +93,10 @@ const GameRoom: React.FC = () => {
     }
   }
 
-  //Must return boolean for Chessboard's onMove (accept or reject)
+  //Handle moves
   const handleMove = (from: string, to: string): boolean => {
     if (!activeBoard) return false;
 
-    //Prevent moves if the internal board turn doesn't match currentTurn
     const boardTurn = activeBoard.chess.turn(); //'w' or 'b'
     if (boardTurn !== currentTurn) return false;
 
@@ -111,16 +106,39 @@ const GameRoom: React.FC = () => {
     return makeMove(from as Square, to as Square);
   };
 
-  //Demo "End Game" button
-  const endGameDemo = () => {
-    const payload: GameOverState = {
-      winner: "Host",
-      score: "7 - 5",
-      host: { wins: 7, losses: 5, draws: 2, timeLossBoards: 1 },
-      guest: { wins: 5, losses: 7, draws: 2, timeLossBoards: 2 },
-    };
-    if (gameId) navigate(`/game/${gameId}/over`, { state: payload });
-  };
+  //Auto-detect game over from chess.js
+  useEffect(() => {
+    if (gameOver.isOver && gameId) {
+      const payload: GameOverState = {
+        winner:
+          gameOver.winner === "white"
+            ? "Host"
+            : gameOver.winner === "black"
+              ? "Guest"
+              : "Draw",
+        score:
+          gameOver.winner === "white"
+            ? "1 - 0"
+            : gameOver.winner === "black"
+              ? "0 - 1"
+              : "½ - ½",
+        host: {
+          wins: gameOver.winner === "white" ? 1 : 0,
+          losses: gameOver.winner === "black" ? 1 : 0,
+          draws: gameOver.winner === "draw" ? 1 : 0,
+          timeLossBoards: 0,
+        },
+        guest: {
+          wins: gameOver.winner === "black" ? 1 : 0,
+          losses: gameOver.winner === "white" ? 1 : 0,
+          draws: gameOver.winner === "draw" ? 1 : 0,
+          timeLossBoards: 0,
+        },
+      };
+
+      navigate(`/game/${gameId}/over`, { state: payload });
+    }
+  }, [gameOver, gameId, navigate]);
 
   if (isLoading || !gameId) {
     return <Loader />;
@@ -138,7 +156,8 @@ const GameRoom: React.FC = () => {
               onClick={() =>
                 navigator.clipboard.writeText(
                   `${window.location.origin}/game/${gameId}`
-                )}>
+                )
+              }>
               Share Link
             </button>
           </div>
@@ -182,13 +201,6 @@ const GameRoom: React.FC = () => {
                 onSelectBoard={(id) => setActiveBoardId(id)}
               />
             </div>
-
-            {/* TEMP: trigger end game for testing */}
-            <button
-              className="mt-4 bg-purple-600 rounded px-3 py-2 hover:bg-purple-700"
-              onClick={endGameDemo}>
-              End Game (Demo)
-            </button>
           </div>
         </div>
       </div>
