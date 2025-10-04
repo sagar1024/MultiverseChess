@@ -7,7 +7,7 @@ const LandingPage: React.FC = () => {
     return (
         <div className="min-h-screen bg-[#111827] text-white flex flex-col">
             {/* Header */}
-            <header className="flex justify-between items-center px-6 py-4 border-b border-gray-700">
+            <header className="flex justify-between items-center px-8 py-4 border-b border-gray-700">
                 <h1
                     onClick={() => navigate("/")}
                     className="text-2xl font-bold text-purple-400 cursor-pointer hover:text-purple-300 transition"
@@ -17,13 +17,13 @@ const LandingPage: React.FC = () => {
             </header>
 
             {/* Main content */}
-            <main className="flex flex-col flex-grow items-center justify-center px-6 text-center space-y-8">
-                {/* Welcome text */}
-                <div>
-                    <h2 className="text-4xl font-bold mb-4 text-purple-300">
+            <main className="flex flex-col flex-grow items-center justify-center px-6 text-center space-y-12">
+                {/* Hero Section */}
+                <div className="space-y-4">
+                    <h2 className="text-5xl md:text-6xl font-extrabold text-purple-300">
                         Welcome to Multiverse Chess
                     </h2>
-                    <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+                    <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
                         A chess variant where every move can create an alternate universe.
                         Explore parallel games, master multiple boards, and claim victory
                         across the multiverse!
@@ -31,8 +31,8 @@ const LandingPage: React.FC = () => {
                 </div>
 
                 {/* How to play */}
-                <div className="bg-gray-800/60 border border-purple-500 rounded-lg p-6 max-w-2xl text-left space-y-3">
-                    <h3 className="text-xl font-semibold text-purple-400 mb-2">
+                <div className="bg-gray-800/60 border border-purple-500 rounded-2xl p-8 max-w-3xl text-left space-y-4 shadow-lg">
+                    <h3 className="text-2xl font-semibold text-purple-400">
                         How to Play
                     </h3>
                     <ul className="list-disc list-inside space-y-2 text-gray-300">
@@ -45,16 +45,16 @@ const LandingPage: React.FC = () => {
                 </div>
 
                 {/* Action buttons */}
-                <div className="flex space-x-6">
+                <div className="flex flex-col sm:flex-row gap-6">
                     <button
                         onClick={() => navigate("/create")}
-                        className="px-6 py-3 rounded-lg bg-purple-600 hover:bg-purple-500 transition text-lg font-semibold"
+                        className="px-8 py-4 rounded-xl bg-purple-600 hover:bg-purple-500 transition text-lg font-semibold shadow-md"
                     >
                         Create Game
                     </button>
                     <button
                         onClick={() => navigate("/join")}
-                        className="px-6 py-3 rounded-lg bg-gray-700 hover:bg-gray-600 transition text-lg font-semibold"
+                        className="px-8 py-4 rounded-xl bg-gray-700 hover:bg-gray-600 transition text-lg font-semibold shadow-md"
                     >
                         Join Game via Link
                     </button>
