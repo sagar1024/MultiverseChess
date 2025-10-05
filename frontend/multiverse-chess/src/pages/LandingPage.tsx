@@ -1,8 +1,20 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
+import { createGame } from "../utils/storage";
 
 const LandingPage: React.FC = () => {
     const navigate = useNavigate();
+
+    const handleCreateGame = () => {
+        const gameId = uuidv4().slice(0, 8);
+
+        //Save new game in localStorage
+        createGame(gameId, "Host");
+
+        //Navigate to the new game
+        navigate(`/game/${gameId}`);
+    };
 
     return (
         <div className="min-h-screen bg-[#111827] text-white flex flex-col">
@@ -47,7 +59,7 @@ const LandingPage: React.FC = () => {
                 {/* Action buttons */}
                 <div className="flex flex-col sm:flex-row gap-6">
                     <button
-                        onClick={() => navigate("/create")}
+                        onClick={handleCreateGame}
                         className="px-8 py-4 rounded-xl bg-purple-600 hover:bg-purple-500 transition text-lg font-semibold shadow-md"
                     >
                         Create Game
