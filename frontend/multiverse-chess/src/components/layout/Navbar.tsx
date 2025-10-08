@@ -25,15 +25,12 @@ const Navbar: React.FC = () => {
 
     return (
         <nav className="bg-gray-900 text-white px-6 py-4 flex items-center justify-between shadow-md">
-            {/* Logo / Title */}
-            <div
-                className="text-2xl font-extrabold tracking-wide cursor-pointer text-purple-400 hover:text-purple-300 transition"
-                onClick={() => navigate("/")}
-            >
+            {/* Logo & Title */}
+            <div className="text-2xl font-extrabold tracking-wide cursor-pointer text-purple-400 hover:text-purple-300 transition" onClick={() => navigate("/")}>
                 ♟ Multiverse Chess
             </div>
 
-            {/* Actions (hidden inside game room) */}
+            {/* Actions */}
             {!isGameRoom && (
                 <div className="flex gap-3">
                     <Button size="sm" onClick={handleCreateGame}>
