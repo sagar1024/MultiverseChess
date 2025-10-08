@@ -9,17 +9,12 @@ const App: React.FC = () => {
   return (
     <Router>
       <div className="flex flex-col min-h-screen bg-[#1e1e2f] text-white">
-        {/* Global Navbar (always present, no need for page headers) */}
         <Navbar />
-
-        {/* All pages wrapped with PageWrapper to keep consistency + animations */}
         <main className="flex-1">
           <PageWrapper>
             <AppRouter />
           </PageWrapper>
         </main>
-
-        {/* Global Footer */}
         <Footer />
       </div>
     </Router>
