@@ -39,8 +39,3 @@ Multiverse Chess is a chess variant where players can explore multiple legal mov
 5. Redis (For caching)
 
 
-
-
-
-
-
