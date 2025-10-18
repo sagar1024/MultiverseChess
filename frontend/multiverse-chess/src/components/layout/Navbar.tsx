@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Sun, Moon, MessageSquare, FolderOpen } from "lucide-react";
-import Button from "../common/Button";
+//import Button from "../common/Button";
 
 const Navbar: React.FC = () => {
     const navigate = useNavigate();
