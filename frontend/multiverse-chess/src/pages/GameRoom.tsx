@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import PageWrapper from "../components/layout/PageWrapper";
 import Chessboard from "../components/game/Chessboard";
 import BoardTimelineTree from "../components/game/BoardTimelineTree";
 import PlayerInfo from "../components/game/PlayerInfo";
@@ -12,6 +11,7 @@ import { isMoveLegal } from "../utils/chessHelpers";
 import type { Square } from "chess.js";
 import { useTimer } from "../hooks/useTimer";
 import { DEFAULT_TIME_PER_PLAYER } from "../utils/constants";
+//import PageWrapper from "../components/layout/PageWrapper";
 
 type GameOverState = {
   winner: "Host" | "Guest" | "Draw";
@@ -145,7 +145,6 @@ const GameRoom: React.FC = () => {
   }
 
   return (
-    <PageWrapper>
       <div className="bg-gray-950 text-white flex flex-col h-screen">
         {/* Top Bar */}
         <div className="flex items-center justify-between bg-gray-900 p-4 border-b border-gray-800">
@@ -204,7 +203,6 @@ const GameRoom: React.FC = () => {
           </div>
         </div>
       </div>
-    </PageWrapper>
   );
 };
 

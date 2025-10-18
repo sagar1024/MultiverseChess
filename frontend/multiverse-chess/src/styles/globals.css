@@ -14,12 +14,18 @@ body,
 #root {
     height: 100%;
     width: 100%;
+    overflow-x: hidden;
+    /* ✅ Fix right-side gap issue */
 }
 
 body {
-    font-family: 'Inter', sans-serif;
-    background-color: #1e1e2f; /* Dark background */
+    font-family: "Inter", sans-serif;
+    background-color: #1e1e2f;
+    /* Dark background */
     color: white;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 }
 
 /* ========= CUSTOM SCROLLBAR ========= */
@@ -74,4 +80,23 @@ body {
     left: 0;
     pointer-events: none;
     z-index: 9999;
+}
+
+/* ========= GLOBAL PAGE LAYOUT HELPERS ========= */
+.full-screen-section {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 4rem 1.5rem;
+}
+
+h1,
+h2,
+h3 {
+    font-family: "Inter", sans-serif;
+    letter-spacing: 0.5px;
 }

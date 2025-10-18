@@ -5,15 +5,15 @@
 /* ========= COMPONENT CLASSES ========= */
 @layer components {
     .btn-primary {
-        @apply px-4 py-2 rounded-lg font-semibold bg-purple-600 text-white hover:bg-purple-500 transition;
+        @apply px-6 py-3 rounded-xl font-semibold bg-purple-600 text-white hover:bg-purple-500 transition shadow-md;
     }
 
     .btn-secondary {
-        @apply px-4 py-2 rounded-lg font-semibold bg-gray-700 text-white hover:bg-gray-600 transition;
+        @apply px-6 py-3 rounded-xl font-semibold bg-gray-700 text-white hover:bg-gray-600 transition shadow-md;
     }
 
     .card {
-        @apply bg-gray-800 rounded-xl p-4 shadow-lg border border-gray-700;
+        @apply bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-700;
     }
 
     .modal-bg {
@@ -21,7 +21,7 @@
     }
 
     .modal-content {
-        @apply bg-gray-900 p-6 rounded-xl shadow-lg border-2 border-purple-500;
+        @apply bg-gray-900 p-6 rounded-2xl shadow-lg border-2 border-purple-500;
     }
 }
 
