@@ -35,7 +35,7 @@ const LandingPage: React.FC = () => {
                     </h1> */}
 
                     <h1 style={{
-                        fontSize: "100px",
+                        fontSize: "70px",
                         lineHeight: 1,
                         fontWeight: 900,
                         color: "transparent",
@@ -48,9 +48,7 @@ const LandingPage: React.FC = () => {
                     </h1>
 
                     <p className="text-2xl md:text-3xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-                        A mind-bending chess variant where every move can create an alternate
-                        universe. Command parallel boards, outthink your opponent, and conquer
-                        across the multiverse!
+                        A chess variant where every move creates an alternate universe. Command multiple boards in parallel, conquer across the multiverse!
                     </p>
                 </motion.div>
 
@@ -69,7 +67,7 @@ const LandingPage: React.FC = () => {
                     </h2> */}
 
                     <h2 style={{
-                        fontSize: "80px",
+                        fontSize: "60px",
                         lineHeight: 1.1,
                         fontWeight: 800,
                         color: "#c084fc", // light purple
