@@ -1,6 +1,5 @@
 import React from "react";
 import { useLocation, useParams, Link } from "react-router-dom";
-//import PageWrapper from "../components/layout/PageWrapper";
 
 interface GameOverState {
   winner: string;

@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-//import PageWrapper from "../components/layout/PageWrapper";
 
 const NotFound: React.FC = () => {
     const navigate = useNavigate();

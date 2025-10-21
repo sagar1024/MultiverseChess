@@ -11,7 +11,6 @@ import { isMoveLegal } from "../utils/chessHelpers";
 import type { Square } from "chess.js";
 import { useTimer } from "../hooks/useTimer";
 import { DEFAULT_TIME_PER_PLAYER } from "../utils/constants";
-//import PageWrapper from "../components/layout/PageWrapper";
 
 type GameOverState = {
   winner: "Host" | "Guest" | "Draw";
