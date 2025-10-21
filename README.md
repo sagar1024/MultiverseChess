@@ -15,11 +15,11 @@ Multiverse Chess is a chess variant where players can explore multiple legal mov
 
 ## Features
 
-1. Multiverse mechanics with branching timelines.
-2. Player timers with fair handling of timeouts.
+1. Multiverse mechanics(branching timelines).
+2. Fair handling of timeouts.
 3. Interactive UI with drag-and-drop chess pieces.
 4. Multiplayer support via shareable game links.
-5. Game over screen with detailed results and scores.
+5. Game over screen with results and scores.
 
 ## Tech Stack
 
