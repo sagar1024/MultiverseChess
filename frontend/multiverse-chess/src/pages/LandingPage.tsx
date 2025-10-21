@@ -29,11 +29,6 @@ const LandingPage: React.FC = () => {
                 >
                     {/* Welcome Heading */}
                     {/* Using inline CSS to override all previous/global css */}
-
-                    {/* <h1 className="text-7xl md:text-8xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-purple-300 drop-shadow-xl">
-                        Welcome to Multiverse Chess
-                    </h1> */}
-
                     <h1 style={{
                         fontSize: "70px",
                         lineHeight: 1,
@@ -63,11 +58,6 @@ const LandingPage: React.FC = () => {
                     
                     {/* How to play */}
                     {/* Using inline CSS to override all previous/global css */}
-
-                    {/* <h2 className="text-4xl md:text-5xl font-bold text-purple-400 mb-4">
-                        How to Play
-                    </h2> */}
-
                     <h2 style={{
                         fontSize: "60px",
                         lineHeight: 1.1,
