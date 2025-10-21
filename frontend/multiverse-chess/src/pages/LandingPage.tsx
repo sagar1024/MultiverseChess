@@ -28,9 +28,26 @@ const LandingPage: React.FC = () => {
                     transition={{ duration: 1 }}
                     className="space-y-8"
                 >
-                    <h1 className="text-7xl md:text-8xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-purple-300 drop-shadow-xl">
+                    {/* Welcome Heading */}
+                    {/* Using inline CSS to override all previous/global css */}
+
+                    {/* <h1 className="text-7xl md:text-8xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-purple-300 drop-shadow-xl">
+                        Welcome to Multiverse Chess
+                    </h1> */}
+
+                    <h1 style={{
+                        fontSize: "100px",
+                        lineHeight: 1,
+                        fontWeight: 900,
+                        color: "transparent",
+                        background: "linear-gradient(90deg,#9b5de5,#f15bb5,#9b5de5)",
+                        WebkitBackgroundClip: "text",
+                        backgroundClip: "text",
+                        textShadow: "0 0 30px rgba(155,93,229,0.35)"
+                    }}>
                         Welcome to Multiverse Chess
                     </h1>
+
                     <p className="text-2xl md:text-3xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
                         A mind-bending chess variant where every move can create an alternate
                         universe. Command parallel boards, outthink your opponent, and conquer
@@ -45,26 +62,30 @@ const LandingPage: React.FC = () => {
                     transition={{ duration: 1, delay: 0.3 }}
                     className="bg-gray-900/80 border border-purple-500/40 rounded-3xl p-10 md:p-14 shadow-2xl backdrop-blur-md max-w-4xl space-y-6"
                 >
-                    <h2 className="text-4xl md:text-5xl font-bold text-purple-400 mb-4">
+                    {/* How to play */}
+                    {/* Using inline CSS to override all previous/global css */}
+
+                    {/* <h2 className="text-4xl md:text-5xl font-bold text-purple-400 mb-4">
+                        How to Play
+                    </h2> */}
+
+                    <h2 style={{
+                        fontSize: "80px",
+                        lineHeight: 1.1,
+                        fontWeight: 800,
+                        color: "#c084fc", // light purple
+                        textShadow: "0 0 20px rgba(192,132,252,0.4)",
+                        marginBottom: "1rem"
+                    }}>
                         How to Play
                     </h2>
+
                     <ul className="list-disc list-inside text-xl text-gray-300 space-y-3 leading-relaxed text-left">
-                        <li>
-                            Each turn, you can make up to <b>3 legal moves</b>, each creating a
-                            new timeline.
-                        </li>
-                        <li>
-                            Timelines branch into separate boards — win more boards to win the
-                            match.
-                        </li>
-                        <li>
-                            If your time runs out, you only lose the boards still in progress.
-                        </li>
+                        <li>Make up to <b>3 legal moves</b>, creating new timelines.</li>
+                        <li>Timelines branch into separate boards.</li>
+                        <li>If your time runs out, you only lose the boards still in progress.</li>
                         <li>Completed boards remain unaffected by time losses.</li>
-                        <li>
-                            The player with the <b>most board victories</b> at the end wins the
-                            multiverse.
-                        </li>
+                        <li>The player with the <b>most board victories</b> wins.</li>
                     </ul>
                 </motion.div>
 
