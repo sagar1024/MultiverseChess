@@ -25,8 +25,8 @@ const LandingPage: React.FC = () => {
                     initial={{ opacity: 0, y: -30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1 }}
-                    className="space-y-8"
-                >
+                    className="space-y-8">
+                    
                     {/* Welcome Heading */}
                     {/* Using inline CSS to override all previous/global css */}
                     <h1 style={{
@@ -52,8 +52,8 @@ const LandingPage: React.FC = () => {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, delay: 0.3 }}
-                    className="bg-gray-900/80 border border-purple-500/40 rounded-3xl p-16 md:p-20 shadow-2xl backdrop-blur-md max-w-6xl w-full flex flex-col items-center text-center space-y-10 mt-20 mb-20"
-                >
+                    className="bg-gray-900/80 border border-purple-500/40 rounded-3xl p-16 md:p-20 shadow-2xl backdrop-blur-md max-w-6xl w-full flex flex-col items-center text-center space-y-10 mt-20 mb-20">
+
                     <h2 style={{
                         fontSize: "60px",
                         lineHeight: 1.1,
@@ -79,16 +79,15 @@ const LandingPage: React.FC = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.6 }}
-                    className="flex flex-col sm:flex-row gap-10 pt-12 mt-10"
-                >
+                    className="flex flex-col sm:flex-row gap-10 pt-12 mt-10">
+                    
                     <button onClick={handleCreateGame}
-                        className="px-16 py-7 rounded-2xl bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-xl font-semibold shadow-lg transition-transform transform hover:scale-105"
-                    >
+                        className="px-16 py-7 rounded-2xl bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-xl font-semibold shadow-lg transition-transform transform hover:scale-105">
                         Create Game
                     </button>
+                    
                     <button onClick={() => navigate('/join')}
-                        className="px-16 py-7 rounded-3xl bg-gray-800 hover:bg-gray-700 text-xl font-semibold shadow-md border border-gray-600 transition-transform transform hover:scale-105"
-                    >
+                        className="px-16 py-7 rounded-3xl bg-gray-800 hover:bg-gray-700 text-xl font-semibold shadow-md border border-gray-600 transition-transform transform hover:scale-105">
                         Join Game via Link
                     </button>
                 </motion.div>
