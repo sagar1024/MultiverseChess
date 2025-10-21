@@ -39,6 +39,5 @@ Multiverse Chess is a chess variant where players can explore multiple legal mov
 4. JWT + bcrypt
 5. Redis (For caching)
 
-
-
+#### Note - This project is currently under development.
 
