@@ -19,7 +19,7 @@ const LandingPage: React.FC = () => {
             <div className="absolute inset-0 bg-gradient-to-r from-purple-700/20 via-fuchsia-700/10 to-transparent blur-3xl pointer-events-none" />
 
             {/* Main Content */}
-            <main className="relative z-10 w-full max-w-6xl mx-auto px-6 py-20 flex flex-col items-center text-center space-y-24">
+            <main className="relative z-10 w-full max-w-7xl mx-auto px-6 py-28 flex flex-col items-center text-center space-y-36">
                 {/* Hero Section */}
                 <motion.div
                     initial={{ opacity: 0, y: -30 }}
@@ -47,7 +47,7 @@ const LandingPage: React.FC = () => {
                         Welcome to Multiverse Chess
                     </h1>
 
-                    <p className="text-2xl md:text-3xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+                    <p className="text-2xl md:text-3xl text-gray-300 max-w-5xl mx-auto leading-relaxed text-center">
                         A chess variant where every move creates an alternate universe. Command multiple boards in parallel, conquer across the multiverse!
                     </p>
                 </motion.div>
@@ -57,8 +57,10 @@ const LandingPage: React.FC = () => {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, delay: 0.3 }}
-                    className="bg-gray-900/80 border border-purple-500/40 rounded-3xl p-10 md:p-14 shadow-2xl backdrop-blur-md max-w-4xl space-y-6"
-                >
+                    
+                    // className="bg-gray-900/80 border border-purple-500/40 rounded-3xl p-16 md:p-20 shadow-2xl backdrop-blur-md max-w-6xl w-full space-y-8 mt-10">
+                    className="bg-gray-900/80 border border-purple-500/40 rounded-3xl p-16 md:p-20 shadow-2xl backdrop-blur-md max-w-6xl w-full space-y-10">
+                    
                     {/* How to play */}
                     {/* Using inline CSS to override all previous/global css */}
 
@@ -91,17 +93,17 @@ const LandingPage: React.FC = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.6 }}
-                    className="flex flex-col sm:flex-row gap-8 pt-6"
+                    className="flex flex-col sm:flex-row gap-10 pt-12"
                 >
                     <button
                         onClick={handleCreateGame}
-                        className="px-12 py-5 rounded-2xl bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-xl font-semibold shadow-lg transition-transform transform hover:scale-105"
+                        className="px-16 py-7 rounded-2xl bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-xl font-semibold shadow-lg transition-transform transform hover:scale-105"
                     >
                         Create Game
                     </button>
                     <button
                         onClick={() => navigate("/join")}
-                        className="px-12 py-5 rounded-2xl bg-gray-800 hover:bg-gray-700 text-xl font-semibold shadow-md border border-gray-600 transition-transform transform hover:scale-105"
+                        className="px-16 py-7 rounded-3xl bg-gray-800 hover:bg-gray-700 text-xl font-semibold shadow-md border border-gray-600 transition-transform transform hover:scale-105"
                     >
                         Join Game via Link
                     </button>
