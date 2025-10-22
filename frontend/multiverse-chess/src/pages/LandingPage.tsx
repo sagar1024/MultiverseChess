@@ -27,6 +27,7 @@ const LandingPage: React.FC = () => {
                 gap: "100px",
             }}
                 className="relative z-10 w-full max-w-7xl mx-auto px-6 py-28 flex flex-col items-center text-center space-y-36">
+                
                 {/* Hero Section */}
                 <motion.div
                     initial={{ opacity: 0, y: -30 }}
@@ -36,6 +37,7 @@ const LandingPage: React.FC = () => {
 
                     {/* Welcome Heading */}
                     {/* Using inline CSS to override all previous/global css */}
+
                     <h1 style={{
                         fontSize: "70px",
                         lineHeight: 1,
@@ -86,16 +88,72 @@ const LandingPage: React.FC = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.6 }}
-                    className="flex flex-col sm:flex-row gap-10 pt-12 mt-10">
-
-                    <button onClick={handleCreateGame}
-                        className="px-16 py-7 rounded-2xl bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-xl font-semibold shadow-lg transition-transform transform hover:scale-105">
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: "100px",
+                        paddingTop: "10px",
+                        marginTop: "10px",
+                        justifyContent: "center",
+                        flexWrap: "wrap",
+                    }}>
+                    
+                    {/* Create Game Button */}
+                    <button
+                        onClick={handleCreateGame}
+                        style={{
+                            padding: "28px 50px",
+                            fontSize: "25px",
+                            fontWeight: 800,
+                            borderRadius: "25px",
+                            background: "linear-gradient(90deg, #9b5de5, #f15bb5, #9b5de5)",
+                            color: "white",
+                            boxShadow: "0 0 40px rgba(241,91,181,0.6)",
+                            border: "none",
+                            cursor: "pointer",
+                            transition: "all 0.3s ease",
+                            textTransform: "uppercase",
+                            letterSpacing: "1px",
+                        }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = "scale(1.1)";
+                            e.currentTarget.style.boxShadow = "0 0 60px rgba(241,91,181,0.8)";
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = "scale(1)";
+                            e.currentTarget.style.boxShadow = "0 0 40px rgba(241,91,181,0.6)";
+                        }}>
                         Create Game
                     </button>
 
-                    <button onClick={() => navigate('/join')}
-                        className="px-16 py-7 rounded-3xl bg-gray-800 hover:bg-gray-700 text-xl font-semibold shadow-md border border-gray-600 transition-transform transform hover:scale-105">
-                        Join Game via Link
+                    {/* Join Game Button */}
+                    <button
+                        onClick={() => navigate("/join")}
+                        style={{
+                            padding: "28px 50px",
+                            fontSize: "25px",
+                            fontWeight: 700,
+                            borderRadius: "25px",
+                            background: "#1e1e2f",
+                            color: "#c084fc",
+                            border: "2px solid #c084fc",
+                            boxShadow: "0 0 25px rgba(192,132,252,0.4)",
+                            cursor: "pointer",
+                            transition: "all 0.3s ease",
+                            textTransform: "uppercase",
+                            letterSpacing: "1px",
+                        }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = "scale(1.1)";
+                            e.currentTarget.style.background = "#2a1a40";
+                            e.currentTarget.style.boxShadow = "0 0 50px rgba(192,132,252,0.7)";
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = "scale(1)";
+                            e.currentTarget.style.background = "#1e1e2f";
+                            e.currentTarget.style.boxShadow = "0 0 25px rgba(192,132,252,0.4)";
+                        }}>
+                        Join via Link
                     </button>
                 </motion.div>
             </main>
