@@ -19,14 +19,21 @@ const LandingPage: React.FC = () => {
             <div className="absolute inset-0 bg-gradient-to-r from-purple-700/20 via-fuchsia-700/10 to-transparent blur-3xl pointer-events-none" />
 
             {/* Main Content */}
-            <main className="relative z-10 w-full max-w-7xl mx-auto px-6 py-28 flex flex-col items-center text-center space-y-36">
+            <main style={{
+                padding: "120px 0",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "100px",
+            }}
+                className="relative z-10 w-full max-w-7xl mx-auto px-6 py-28 flex flex-col items-center text-center space-y-36">
                 {/* Hero Section */}
                 <motion.div
                     initial={{ opacity: 0, y: -30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1 }}
                     className="space-y-8">
-                    
+
                     {/* Welcome Heading */}
                     {/* Using inline CSS to override all previous/global css */}
                     <h1 style={{
@@ -80,12 +87,12 @@ const LandingPage: React.FC = () => {
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.6 }}
                     className="flex flex-col sm:flex-row gap-10 pt-12 mt-10">
-                    
+
                     <button onClick={handleCreateGame}
                         className="px-16 py-7 rounded-2xl bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-xl font-semibold shadow-lg transition-transform transform hover:scale-105">
                         Create Game
                     </button>
-                    
+
                     <button onClick={() => navigate('/join')}
                         className="px-16 py-7 rounded-3xl bg-gray-800 hover:bg-gray-700 text-xl font-semibold shadow-md border border-gray-600 transition-transform transform hover:scale-105">
                         Join Game via Link
