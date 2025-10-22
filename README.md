@@ -6,19 +6,20 @@ Multiverse Chess is a chess variant where players can explore multiple legal mov
 
 ## Game Rules
 
-1. Each turn, a player may make up to 3 legal moves.
+1. Each turn, a player can make up to 3 legal moves.
 2. Every move creates a new branch(new board) in the timeline.
 3. Multiple boards are active simultaneously.
-4. The game ends when: all boards reach a conclusion(win/loss/draw), or a player’s timer runs out(they lose only on ongoing boards).
-5. The final winner is the player with the most wins across all universes.
+4. The game ends when: all boards reach a conclusion(win/loss/draw).
+5. If a player’s timer runs out, they lose only on ongoing boards.
+6. The final winner is the player with the most wins across all universes.
 
 ## Features
 
-1. Multiverse mechanics with branching timelines.
-2. Player timers with fair handling of timeouts.
+1. Multiverse mechanics(branching timelines).
+2. Fair handling of timeouts.
 3. Interactive UI with drag-and-drop chess pieces.
 4. Multiplayer support via shareable game links.
-5. Game over screen with detailed results and scores.
+5. Game over screen with results and scores.
 
 ## Tech Stack
 
@@ -38,6 +39,6 @@ Multiverse Chess is a chess variant where players can explore multiple legal mov
 4. JWT + bcrypt
 5. Redis (For caching)
 
+---
 
-
-
+#### Note - This project is currently under development.
