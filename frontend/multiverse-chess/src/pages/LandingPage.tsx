@@ -20,11 +20,11 @@ const LandingPage: React.FC = () => {
 
             {/* Main Content */}
             <main style={{
-                padding: "120px 0",
+                padding: "100px 0",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                gap: "100px",
+                gap: "75px",
             }}
                 className="relative z-10 w-full max-w-7xl mx-auto px-6 py-28 flex flex-col items-center text-center space-y-36">
 
@@ -36,12 +36,12 @@ const LandingPage: React.FC = () => {
 
                     //className="space-y-8"
                     style={{
-                        padding: "40px 60px",
+                        padding: "20px 60px",
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
                         textAlign: "center",
-                        gap: "50px",
+                        gap: "40px",
                     }}>
 
                     {/* Welcome Heading */}
@@ -64,52 +64,6 @@ const LandingPage: React.FC = () => {
                     </p>
                 </motion.div>
 
-                {/* How to Play Section */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 0.3 }}
-
-                    //Using inline CSS instead of Tailwind
-                    //className="bg-gray-900/80 border border-purple-500/40 rounded-3xl p-16 md:p-20 shadow-2xl backdrop-blur-md max-w-6xl w-full flex flex-col items-center text-center space-y-10 mt-20 mb-20"
-                    style={{
-                        background: "rgba(17, 17, 27, 0.8)",
-                        border: "1px solid rgba(192,132,252,0.4)",
-                        borderRadius: "30px",
-                        padding: "80px 80px",
-                        boxShadow: "0 0 60px rgba(155,93,229,0.25)",
-                        backdropFilter: "blur(12px)",
-                        maxWidth: "1100px",
-                        width: "100%",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        textAlign: "center",
-                        gap: "50px",
-                        //marginTop: "120px",
-                        //marginBottom: "120px",
-                    }}>
-
-                    <h2 style={{
-                        fontSize: "50px",
-                        lineHeight: 1.1,
-                        fontWeight: 800,
-                        color: "#c084fc",
-                        textShadow: "0 0 20px rgba(192,132,252,0.4)",
-                        marginBottom: "1rem",
-                    }}>
-                        <u>How to Play</u>
-                    </h2>
-
-                    <ul className="list-disc text-xl text-gray-300 space-y-3 leading-relaxed text-left max-w-3xl mx-auto">
-                        <li>― Make up to <b>3 legal moves</b>, creating new timelines.</li>
-                        <li>― Timelines branch into separate boards.</li>
-                        <li>― If time runs out, you only lose games still in progress.</li>
-                        <li>― Completed boards remain unaffected by time losses.</li>
-                        <li>― The player with the <b>most board victories</b> wins.</li>
-                    </ul>
-                </motion.div>
-
                 {/* Buttons Section */}
                 <motion.div
                     initial={{ opacity: 0 }}
@@ -118,7 +72,7 @@ const LandingPage: React.FC = () => {
                     style={{
                         display: "flex",
                         flexDirection: "row",
-                        gap: "100px",
+                        gap: "250px",
                         paddingTop: "10px",
                         marginTop: "10px",
                         justifyContent: "center",
@@ -182,6 +136,52 @@ const LandingPage: React.FC = () => {
                         }}>
                         Join via Link
                     </button>
+                </motion.div>
+
+                {/* How to Play Section */}
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1, delay: 0.3 }}
+
+                    //Using inline CSS instead of Tailwind
+                    //className="bg-gray-900/80 border border-purple-500/40 rounded-3xl p-16 md:p-20 shadow-2xl backdrop-blur-md max-w-6xl w-full flex flex-col items-center text-center space-y-10 mt-20 mb-20"
+                    style={{
+                        background: "rgba(17, 17, 27, 0.8)",
+                        border: "1px solid rgba(192,132,252,0.4)",
+                        borderRadius: "30px",
+                        padding: "80px 80px",
+                        boxShadow: "0 0 60px rgba(155,93,229,0.25)",
+                        backdropFilter: "blur(12px)",
+                        maxWidth: "1100px",
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        textAlign: "center",
+                        gap: "50px",
+                        marginTop: "70px",
+                        //marginBottom: "120px",
+                    }}>
+
+                    <h2 style={{
+                        fontSize: "50px",
+                        lineHeight: 1.1,
+                        fontWeight: 800,
+                        color: "#c084fc",
+                        textShadow: "0 0 20px rgba(192,132,252,0.4)",
+                        marginBottom: "1rem",
+                    }}>
+                        <u>How to Play</u>
+                    </h2>
+
+                    <ul className="list-disc text-xl text-gray-300 space-y-3 leading-relaxed text-left max-w-3xl mx-auto">
+                        <li>― Make up to <b>3 legal moves</b>, creating new timelines.</li>
+                        <li>― Timelines branch into separate boards.</li>
+                        <li>― If time runs out, you only lose games still in progress.</li>
+                        <li>― Completed boards remain unaffected by time losses.</li>
+                        <li>― The player with the <b>most board victories</b> wins.</li>
+                    </ul>
                 </motion.div>
             </main>
         </div>
