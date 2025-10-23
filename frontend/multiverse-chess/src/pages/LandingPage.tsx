@@ -60,7 +60,7 @@ const LandingPage: React.FC = () => {
                     </h1>
 
                     <p className="text-2xl md:text-3xl text-gray-300 max-w-5xl mx-auto leading-relaxed text-center">
-                        A chess variant where every move creates a new reality — spawns a new world in an alternate universe! In this game of infinite possibilities, every world decides your fate. Split realities, command multiple boards and outthink your opponent. CONQUER THE MULTIVERSE!
+                        A chess variant where every move creates a new reality — spawns a new world in an alternate universe! In this game of infinite possibilities, every world decides your fate. Split realities, command multiple boards and outsmart your opponent. CONQUER THE MULTIVERSE!
                     </p>
                 </motion.div>
 
