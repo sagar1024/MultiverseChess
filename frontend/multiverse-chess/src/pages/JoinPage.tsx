@@ -4,9 +4,8 @@ import { getGame, joinGame } from "../utils/storage";
 
 const JoinPage: React.FC = () => {
     const [input, setInput] = useState("");
-    
     const navigate = useNavigate();
-
+    
     const handleJoin = (e: React.FormEvent) => {
         e.preventDefault();
 
