@@ -1,7 +1,7 @@
 import React from "react";
 
 interface LoaderProps {
-    size?: number; // size in pixels
+    size?: number; //Size in pixels
 }
 
 const Loader: React.FC<LoaderProps> = ({ size = 40 }) => {
