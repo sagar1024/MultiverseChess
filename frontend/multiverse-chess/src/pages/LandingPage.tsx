@@ -61,7 +61,7 @@ const LandingPage: React.FC = () => {
 
                     {/* Using inline CSS mainly to decrease font size */}
                     <p style={{
-                        fontSize: "18px",
+                        fontSize: "18.75px",
                         lineHeight: "1.6",
                         color: "#d1d5db", //Same as text-gray-300
                         textAlign: "center",
@@ -168,7 +168,7 @@ const LandingPage: React.FC = () => {
                         alignItems: "center",
                         textAlign: "center",
                         gap: "50px",
-                        marginTop: "70px",
+                        marginTop: "40px",
                         //marginBottom: "120px",
                     }}>
 
