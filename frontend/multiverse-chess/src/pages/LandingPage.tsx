@@ -41,7 +41,7 @@ const LandingPage: React.FC = () => {
                         flexDirection: "column",
                         alignItems: "center",
                         textAlign: "center",
-                        gap: "40px",
+                        gap: "50px",
                     }}>
 
                     {/* Welcome Heading */}
@@ -59,7 +59,15 @@ const LandingPage: React.FC = () => {
                         Welcome to Multiverse Chess
                     </h1>
 
-                    <p className="text-2xl md:text-3xl text-gray-300 max-w-5xl mx-auto leading-relaxed text-center">
+                    {/* Using inline CSS mainly to decrease font size */}
+                    <p style={{
+                        fontSize: "18px",
+                        lineHeight: "1.6",
+                        color: "#d1d5db", //Same as text-gray-300
+                        textAlign: "center",
+                        maxWidth: "80rem",
+                        margin: "0 auto",
+                    }} className="text-2xl md:text-3xl text-gray-300 max-w-5xl mx-auto leading-relaxed text-center">
                         A chess variant where every move creates a new reality — spawns a new world in an alternate universe! In this game of infinite possibilities, every world decides your fate. Split realities, command multiple boards and outsmart your opponent. CONQUER THE MULTIVERSE!
                     </p>
                 </motion.div>
@@ -72,7 +80,7 @@ const LandingPage: React.FC = () => {
                     style={{
                         display: "flex",
                         flexDirection: "row",
-                        gap: "250px",
+                        gap: "150px",
                         paddingTop: "10px",
                         marginTop: "10px",
                         justifyContent: "center",
@@ -172,7 +180,7 @@ const LandingPage: React.FC = () => {
                         textShadow: "0 0 20px rgba(192,132,252,0.4)",
                         marginBottom: "1rem",
                     }}>
-                        <u>How to Play</u>
+                        How to Play?
                     </h2>
 
                     <ul className="list-disc text-xl text-gray-300 space-y-3 leading-relaxed text-left max-w-3xl mx-auto">
