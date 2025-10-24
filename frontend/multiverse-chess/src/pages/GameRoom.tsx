@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGameStore } from "../store/gameStore";
 import Chessboard from "../components/game/Chessboard";
@@ -86,12 +86,46 @@ const GameRoom: React.FC = () => {
     navigate(`/game/${gameId}/over`, { state: payload });
   }
 
+  //Tracking how many moves the current player has made this turn
+  const [movesThisTurn, setMovesThisTurn] = useState(0);
+
+  //Pass turn manually or after 3 moves
+  const passTurn = () => {
+    setMovesThisTurn(0);
+
+    //Flip turn logic — toggle between "white" and "black"
+    useGameStore.setState((state) => ({
+      activeTurn: state.activeTurn === "white" ? "black" : "white",
+    }));
+  };
+
   //Handle move
+  // const handleMove = (from: string, to: string): boolean => {
+  //   if (!activeBoard || gameStatus !== "playing") return false;
+
+  //   try {
+  //     makeMove(activeBoard.id, { from, to });
+  //     return true;
+  //   } catch {
+  //     return false;
+  //   }
+  // };
   const handleMove = (from: string, to: string): boolean => {
     if (!activeBoard || gameStatus !== "playing") return false;
 
     try {
-      makeMove(activeBoard.id, { from, to });
+      const success = makeMove(activeBoard.id, { from, to });
+      if (!success) return false;
+
+      // Increment local move count
+      setMovesThisTurn((prev) => {
+        const newCount = prev + 1;
+        if (newCount >= 3) {
+          passTurn(); // auto-pass after 3 moves
+        }
+        return newCount >= 3 ? 0 : newCount;
+      });
+
       return true;
     } catch {
       return false;
@@ -170,12 +204,29 @@ const GameRoom: React.FC = () => {
       <div className="flex flex-1 overflow-hidden">
         {/* Chessboard */}
         <div className="flex-1 flex justify-center items-center p-4">
-          <Chessboard
+          
+          {/* <Chessboard
             position={position}
             onMove={handleMove}
             orientation={activeTurn === "white" ? "white" : "black"}
             allowMoves={true}
-          />
+          /> */}
+
+          <div className="flex flex-col items-center gap-4">
+            <Chessboard
+              position={position}
+              onMove={handleMove}
+              orientation={activeTurn === "white" ? "white" : "black"}
+              allowMoves={true}/>
+              
+            <button
+              onClick={passTurn}
+              disabled={movesThisTurn === 0}
+              className={`px-4 py-2 rounded-lg font-semibold transition ${movesThisTurn === 0 ? "bg-gray-700 text-gray-400 cursor-not-allowed" : "bg-purple-600 hover:bg-purple-700 text-white shadow-md"}`}
+            >
+              Pass Turn ({movesThisTurn}/3)
+            </button>
+          </div>
         </div>
 
         {/* Right Sidebar */}
