@@ -15,15 +15,15 @@ const LandingPage: React.FC = () => {
     // };
     const handleCreateGame = () => {
         const gameId = uuidv4().slice(0, 8);
-        const initGame = useGameStore.getState().initGame; // access Zustand action
+        const initGame = useGameStore.getState().initGame; //Access Zustand action
 
-        // initialize game in Zustand
+        //Initialize game in Zustand
         initGame("Host", "Guest", 600);
 
-        // also store in localStorage for fallback
+        //Also store in localStorage for fallback
         createGame(gameId, "Host");
 
-        // navigate to the new game
+        //Navigate to the new game
         navigate(`/game/${gameId}`);
     };
 
