@@ -21,7 +21,7 @@ const GameRoom: React.FC = () => {
   const { gameId } = useParams<{ gameId: string }>();
   const navigate = useNavigate();
 
-  // Zustand Store
+  //Zustand Store
   const {
     boards,
     activeBoardId,
@@ -36,7 +36,7 @@ const GameRoom: React.FC = () => {
   const activeBoard = boards.find((b) => b.id === activeBoardId);
   const position = activeBoard ? activeBoard.chess.fen() : "start";
 
-  // Redirect logic
+  //Redirect logic
   useEffect(() => {
     if (!gameId) {
       navigate("/");
@@ -48,7 +48,7 @@ const GameRoom: React.FC = () => {
     }
   }, [gameId, boards.length, gameStatus, navigate]);
 
-  // Timers
+  //Timers
   const whiteTimer = useTimer({
     initialTime: players.white.timeLeft || DEFAULT_TIME_PER_PLAYER,
     isRunning: activeTurn === "white" && gameStatus === "playing",
@@ -117,11 +117,11 @@ const GameRoom: React.FC = () => {
       const success = makeMove(activeBoard.id, { from, to });
       if (!success) return false;
 
-      // Increment local move count
+      //Increment local move count
       setMovesThisTurn((prev) => {
         const newCount = prev + 1;
         if (newCount >= 3) {
-          passTurn(); // auto-pass after 3 moves
+          passTurn(); //Auto-pass after 3 moves
         }
         return newCount >= 3 ? 0 : newCount;
       });

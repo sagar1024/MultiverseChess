@@ -28,7 +28,8 @@ interface GameStore {
 
     //Actions
     initGame: (whiteName: string, blackName: string, timePerPlayer: number) => void;
-    makeMove: (boardId: string, move: { from: string; to: string }) => void;
+    //makeMove: (boardId: string, move: { from: string; to: string }) => void;
+    makeMove: (boardId: string, move: { from: string; to: string }) => boolean;
     passTurn: () => void;
     setActiveBoard: (boardId: string) => void;
     endGame: () => void;
