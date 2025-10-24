@@ -270,7 +270,7 @@ const GameRoom: React.FC = () => {
     onTimeOver: () => handleTimeOver("black"),
   });
 
-  // Handle time over event
+  //Handle time over event
   function handleTimeOver(side: "white" | "black") {
     const winner = side === "white" ? "Guest" : "Host";
 
@@ -295,7 +295,7 @@ const GameRoom: React.FC = () => {
     navigate(`/game/${gameId}/over`, { state: payload });
   }
 
-  // Handle move
+  //Handle move
   const handleMove = (from: string, to: string): boolean => {
     if (!activeBoard || gameStatus !== "playing") return false;
 
@@ -307,7 +307,7 @@ const GameRoom: React.FC = () => {
     }
   };
 
-  // Detect game over from board states
+  //Detect game over from board states
   useEffect(() => {
     const allDone = boards.every((b) => b.status !== "active");
     if (allDone && gameStatus !== "finished") {
