@@ -1,9 +1,107 @@
+// import { create } from "zustand";
+// import { Chess} from "chess.js";
+// import type { Move } from "chess.js";
+
+// export interface BoardState {
+//     id: string;
+//     chess: Chess;
+//     moves: Move[];
+//     status: "active" | "checkmate" | "stalemate" | "draw" | "time";
+// }
+
+// interface PlayerInfo {
+//     id: string;
+//     name: string;
+//     timeLeft: number; //Seconds
+// }
+
+// interface GameStore {
+//     boards: BoardState[];
+//     activeBoardId: string;
+//     players: { white: PlayerInfo; black: PlayerInfo };
+//     activeTurn: "white" | "black";
+//     gameStatus: "waiting" | "playing" | "finished";
+
+//     //Actions
+//     initGame: (whiteName: string, blackName: string, timePerPlayer: number) => void;
+//     makeMove: (boardId: string, move: { from: string; to: string }) => void;
+//     setActiveBoard: (boardId: string) => void;
+//     endGame: () => void;
+// }
+
+// export const useGameStore = create<GameStore>((set, get) => ({
+//     boards: [],
+//     activeBoardId: "",
+//     players: {
+//         white: { id: "p1", name: "White", timeLeft: 300 },
+//         black: { id: "p2", name: "Black", timeLeft: 300 }
+//     },
+//     activeTurn: "white",
+//     gameStatus: "waiting",
+
+//     initGame: (whiteName, blackName, timePerPlayer) => {
+//         const chess = new Chess();
+//         set({
+//             boards: [
+//                 {
+//                     id: "root",
+//                     chess,
+//                     moves: [],
+//                     status: "active"
+//                 }
+//             ],
+//             activeBoardId: "root",
+//             players: {
+//                 white: { id: "p1", name: whiteName, timeLeft: timePerPlayer },
+//                 black: { id: "p2", name: blackName, timeLeft: timePerPlayer }
+//             },
+//             activeTurn: "white",
+//             gameStatus: "playing"
+//         });
+//     },
+
+//     makeMove: (boardId, move) => {
+//         set((state) => {
+//             const boardIndex = state.boards.findIndex((b) => b.id === boardId);
+//             if (boardIndex === -1) return state;
+
+//             const boardCopy = new Chess(state.boards[boardIndex].chess.fen());
+//             const moveResult = boardCopy.move(move);
+//             if (!moveResult) return state; // illegal move
+
+//             const newBoardId = `${boardId}-${state.boards[boardIndex].moves.length + 1}`;
+//             const newBoard: BoardState = {
+//                 id: newBoardId,
+//                 chess: boardCopy,
+//                 moves: [...state.boards[boardIndex].moves, moveResult],
+//                 status: boardCopy.isGameOver()
+//                     ? boardCopy.isCheckmate()
+//                         ? "checkmate"
+//                         : "draw"
+//                     : "active"
+//             };
+
+//             return {
+//                 boards: [...state.boards, newBoard],
+//                 activeBoardId: newBoardId,
+//                 activeTurn: state.activeTurn === "white" ? "black" : "white"
+//             };
+//         });
+//     },
+
+//     setActiveBoard: (boardId) => set({ activeBoardId: boardId }),
+
+//     endGame: () => set({ gameStatus: "finished" })
+// }));
+
 import { create } from "zustand";
-import { Chess} from "chess.js";
+import { Chess } from "chess.js";
 import type { Move } from "chess.js";
+import { DEFAULT_MAX_MOVES_PER_TURN } from "@/utils/constants";
 
 export interface BoardState {
     id: string;
+    parentId?: string; // 🔗 for timeline tree
     chess: Chess;
     moves: Move[];
     status: "active" | "checkmate" | "stalemate" | "draw" | "time";
@@ -12,7 +110,7 @@ export interface BoardState {
 interface PlayerInfo {
     id: string;
     name: string;
-    timeLeft: number; //Seconds
+    timeLeft: number; // seconds
 }
 
 interface GameStore {
@@ -21,10 +119,13 @@ interface GameStore {
     players: { white: PlayerInfo; black: PlayerInfo };
     activeTurn: "white" | "black";
     gameStatus: "waiting" | "playing" | "finished";
+    moveCountThisTurn: number;
+    maxMovesPerTurn: number;
 
-    //Actions
+    // Actions
     initGame: (whiteName: string, blackName: string, timePerPlayer: number) => void;
     makeMove: (boardId: string, move: { from: string; to: string }) => void;
+    passTurn: () => void;
     setActiveBoard: (boardId: string) => void;
     endGame: () => void;
 }
@@ -34,10 +135,12 @@ export const useGameStore = create<GameStore>((set, get) => ({
     activeBoardId: "",
     players: {
         white: { id: "p1", name: "White", timeLeft: 300 },
-        black: { id: "p2", name: "Black", timeLeft: 300 }
+        black: { id: "p2", name: "Black", timeLeft: 300 },
     },
     activeTurn: "white",
     gameStatus: "waiting",
+    moveCountThisTurn: 0,
+    maxMovesPerTurn: DEFAULT_MAX_MOVES_PER_TURN,
 
     initGame: (whiteName, blackName, timePerPlayer) => {
         const chess = new Chess();
@@ -47,16 +150,17 @@ export const useGameStore = create<GameStore>((set, get) => ({
                     id: "root",
                     chess,
                     moves: [],
-                    status: "active"
-                }
+                    status: "active",
+                },
             ],
             activeBoardId: "root",
             players: {
                 white: { id: "p1", name: whiteName, timeLeft: timePerPlayer },
-                black: { id: "p2", name: blackName, timeLeft: timePerPlayer }
+                black: { id: "p2", name: blackName, timeLeft: timePerPlayer },
             },
             activeTurn: "white",
-            gameStatus: "playing"
+            gameStatus: "playing",
+            moveCountThisTurn: 0,
         });
     },
 
@@ -69,27 +173,46 @@ export const useGameStore = create<GameStore>((set, get) => ({
             const moveResult = boardCopy.move(move);
             if (!moveResult) return state; // illegal move
 
+            // 🔹 Create a new timeline branch
             const newBoardId = `${boardId}-${state.boards[boardIndex].moves.length + 1}`;
             const newBoard: BoardState = {
                 id: newBoardId,
+                parentId: boardId,
                 chess: boardCopy,
                 moves: [...state.boards[boardIndex].moves, moveResult],
                 status: boardCopy.isGameOver()
                     ? boardCopy.isCheckmate()
                         ? "checkmate"
                         : "draw"
-                    : "active"
+                    : "active",
             };
+
+            const newMoveCount = state.moveCountThisTurn + 1;
+            const nextTurn =
+                newMoveCount >= state.maxMovesPerTurn
+                    ? state.activeTurn === "white"
+                        ? "black"
+                        : "white"
+                    : state.activeTurn;
 
             return {
                 boards: [...state.boards, newBoard],
                 activeBoardId: newBoardId,
-                activeTurn: state.activeTurn === "white" ? "black" : "white"
+                activeTurn: nextTurn,
+                moveCountThisTurn:
+                    newMoveCount >= state.maxMovesPerTurn ? 0 : newMoveCount,
             };
         });
     },
 
+    passTurn: () => {
+        set((state) => ({
+            activeTurn: state.activeTurn === "white" ? "black" : "white",
+            moveCountThisTurn: 0,
+        }));
+    },
+
     setActiveBoard: (boardId) => set({ activeBoardId: boardId }),
 
-    endGame: () => set({ gameStatus: "finished" })
+    endGame: () => set({ gameStatus: "finished" }),
 }));
