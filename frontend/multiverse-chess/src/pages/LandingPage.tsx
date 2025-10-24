@@ -3,13 +3,27 @@ import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { motion } from "framer-motion";
 import { createGame } from "../utils/storage";
+import { useGameStore } from "../store/gameStore";
 
 const LandingPage: React.FC = () => {
     const navigate = useNavigate();
 
+    // const handleCreateGame = () => {
+    //     const gameId = uuidv4().slice(0, 8);
+    //     createGame(gameId, "Host");
+    //     navigate(`/game/${gameId}`);
+    // };
     const handleCreateGame = () => {
         const gameId = uuidv4().slice(0, 8);
+        const initGame = useGameStore.getState().initGame; // access Zustand action
+
+        // initialize game in Zustand
+        initGame("Host", "Guest", 600);
+
+        // also store in localStorage for fallback
         createGame(gameId, "Host");
+
+        // navigate to the new game
         navigate(`/game/${gameId}`);
     };
 
