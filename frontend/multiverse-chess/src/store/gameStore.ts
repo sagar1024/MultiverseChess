@@ -6,6 +6,8 @@ import { DEFAULT_MAX_MOVES_PER_TURN } from "@/utils/constants";
 export interface BoardState {
     id: string;
     parentId?: string; //For timeline tree
+    children: string[]; //Child board IDs (branches)
+    label: string; //"Board 1", "Board 1.1", etc.
     chess: Chess;
     moves: Move[];
     status: "active" | "checkmate" | "stalemate" | "draw" | "time";
@@ -28,11 +30,13 @@ interface GameStore {
 
     //Actions
     initGame: (whiteName: string, blackName: string, timePerPlayer: number) => void;
-    //makeMove: (boardId: string, move: { from: string; to: string }) => void;
     makeMove: (boardId: string, move: { from: string; to: string }) => boolean;
     passTurn: () => void;
     setActiveBoard: (boardId: string) => void;
     endGame: () => void;
+
+    //New action
+    createNewUniverse: (boardId: string) => void;
 }
 
 export const useGameStore = create<GameStore>((set, get) => ({
@@ -55,6 +59,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
                     id: "root",
                     chess,
                     moves: [],
+                    label: "Board 1",
+                    children: [],
                     status: "active",
                 },
             ],
@@ -69,47 +75,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
         });
     },
 
-    // makeMove: (boardId, move) => {
-    //     set((state) => {
-    //         const boardIndex = state.boards.findIndex((b) => b.id === boardId);
-    //         if (boardIndex === -1) return state;
-
-    //         const boardCopy = new Chess(state.boards[boardIndex].chess.fen());
-    //         const moveResult = boardCopy.move(move);
-    //         if (!moveResult) return state; // illegal move
-
-    //         //Create a new timeline branch
-    //         const newBoardId = `${boardId}-${state.boards[boardIndex].moves.length + 1}`;
-    //         const newBoard: BoardState = {
-    //             id: newBoardId,
-    //             parentId: boardId,
-    //             chess: boardCopy,
-    //             moves: [...state.boards[boardIndex].moves, moveResult],
-    //             status: boardCopy.isGameOver()
-    //                 ? boardCopy.isCheckmate()
-    //                     ? "checkmate"
-    //                     : "draw"
-    //                 : "active",
-    //         };
-
-    //         const newMoveCount = state.moveCountThisTurn + 1;
-    //         const nextTurn =
-    //             newMoveCount >= state.maxMovesPerTurn
-    //                 ? state.activeTurn === "white"
-    //                     ? "black"
-    //                     : "white"
-    //                 : state.activeTurn;
-
-    //         return {
-    //             boards: [...state.boards, newBoard],
-    //             activeBoardId: newBoardId,
-    //             activeTurn: nextTurn,
-    //             moveCountThisTurn:
-    //                 newMoveCount >= state.maxMovesPerTurn ? 0 : newMoveCount,
-    //         };
-    //     });
-    // },
-    
     makeMove: (boardId, move) => {
         let moveSuccess = false;
 
@@ -121,13 +86,17 @@ export const useGameStore = create<GameStore>((set, get) => ({
             const moveResult = boardCopy.move(move);
             if (!moveResult) return state; //Illegal move
 
-            moveSuccess = true; //Mark success
+            moveSuccess = true;
 
-            //Create a new timeline branch
+            //Create a new timeline branch automatically on each move
             const newBoardId = `${boardId}-${state.boards[boardIndex].moves.length + 1}`;
+            const newLabel = `${state.boards[boardIndex].label}.${state.boards[boardIndex].children.length + 1}`;
+
             const newBoard: BoardState = {
                 id: newBoardId,
                 parentId: boardId,
+                children: [],
+                label: newLabel,
                 chess: boardCopy,
                 moves: [...state.boards[boardIndex].moves, moveResult],
                 status: boardCopy.isGameOver()
@@ -136,6 +105,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
                         : "draw"
                     : "active",
             };
+
+            const updatedBoards = state.boards.map((b) =>
+                b.id === boardId ? { ...b, children: [...b.children, newBoardId] } : b
+            );
 
             const newMoveCount = state.moveCountThisTurn + 1;
             const nextTurn =
@@ -146,7 +119,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
                     : state.activeTurn;
 
             return {
-                boards: [...state.boards, newBoard],
+                boards: [...updatedBoards, newBoard],
                 activeBoardId: newBoardId,
                 activeTurn: nextTurn,
                 moveCountThisTurn:
@@ -167,4 +140,39 @@ export const useGameStore = create<GameStore>((set, get) => ({
     setActiveBoard: (boardId) => set({ activeBoardId: boardId }),
 
     endGame: () => set({ gameStatus: "finished" }),
+
+    //Create a new branch (duplicate board as a new universe)
+    createNewUniverse: (boardId) => {
+        set((state) => {
+            const baseBoard = state.boards.find((b) => b.id === boardId);
+            if (!baseBoard) return state;
+
+            const siblings = state.boards.filter((b) => b.parentId === boardId);
+            const newChildIndex = siblings.length + 1;
+
+            const newId = `${boardId}-${newChildIndex}`;
+            const newLabel = `${baseBoard.label}.${newChildIndex}`;
+
+            const clonedChess = new Chess(baseBoard.chess.fen());
+
+            const newBoard: BoardState = {
+                id: newId,
+                parentId: baseBoard.id,
+                children: [],
+                label: newLabel,
+                chess: clonedChess,
+                moves: [...baseBoard.moves],
+                status: "active",
+            };
+
+            const updatedBoards = state.boards.map((b) =>
+                b.id === boardId ? { ...b, children: [...b.children, newId] } : b
+            );
+
+            return {
+                boards: [...updatedBoards, newBoard],
+                activeBoardId: newId, //Auto switch to new branch
+            };
+        });
+    },
 }));
