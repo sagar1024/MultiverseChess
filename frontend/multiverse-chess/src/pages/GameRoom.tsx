@@ -28,6 +28,7 @@ const GameRoom: React.FC = () => {
     activeTurn,
     players,
     makeMove,
+    createNewUniverse,
     setActiveBoard,
     gameStatus,
     endGame,
@@ -204,28 +205,26 @@ const GameRoom: React.FC = () => {
       <div className="flex flex-1 overflow-hidden">
         {/* Chessboard */}
         <div className="flex-1 flex justify-center items-center p-4">
-          
-          {/* <Chessboard
-            position={position}
-            onMove={handleMove}
-            orientation={activeTurn === "white" ? "white" : "black"}
-            allowMoves={true}
-          /> */}
-
           <div className="flex flex-col items-center gap-4">
             <Chessboard
               position={position}
               onMove={handleMove}
               orientation={activeTurn === "white" ? "white" : "black"}
-              allowMoves={true}/>
-              
-            <button
-              onClick={passTurn}
-              disabled={movesThisTurn === 0}
-              className={`px-4 py-2 rounded-lg font-semibold transition ${movesThisTurn === 0 ? "bg-gray-700 text-gray-400 cursor-not-allowed" : "bg-purple-600 hover:bg-purple-700 text-white shadow-md"}`}
-            >
-              Pass Turn ({movesThisTurn}/3)
-            </button>
+              allowMoves={true}
+            />
+
+            <div className="flex gap-3">
+              <button onClick={() => createNewUniverse(activeBoardId)}
+                className="px-4 py-2 rounded-lg font-semibold bg-blue-600 hover:bg-blue-700 text-white shadow-md">
+                Create New Universe
+              </button>
+
+              <button onClick={passTurn}
+                disabled={movesThisTurn === 0}
+                className={`px-4 py-2 rounded-lg font-semibold transition ${movesThisTurn === 0 ? "bg-gray-700 text-gray-400 cursor-not-allowed" : "bg-purple-600 hover:bg-purple-700 text-white shadow-md"}`}>
+                Pass Turn ({movesThisTurn}/3)
+              </button>
+            </div>
           </div>
         </div>
 

@@ -34,8 +34,6 @@ interface GameStore {
     passTurn: () => void;
     setActiveBoard: (boardId: string) => void;
     endGame: () => void;
-
-    //New action
     createNewUniverse: (boardId: string) => void;
 }
 

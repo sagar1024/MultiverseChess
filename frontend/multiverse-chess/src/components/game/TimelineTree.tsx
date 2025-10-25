@@ -7,7 +7,7 @@ interface TimelineTreeProps {
   onSelectBoard: (id: string) => void;
 }
 
-/** A minimal tree node structure derived from BoardState */
+//A minimal tree node structure derived from BoardState
 interface TreeNode {
   id: string;
   parentId?: string | null;
@@ -16,12 +16,12 @@ interface TreeNode {
   isActive: boolean;
 }
 
-/** Build a tree from flat board list */
+//Build a tree from flat board list
 function buildTree(boards: BoardState[], activeBoardId: string): TreeNode[] {
   const map = new Map<string, TreeNode>();
 
   for (const board of boards) {
-    // Derive the last move SAN (e.g., "Nf3", "e4", etc.)
+    //Derive the last move SAN (e.g., "Nf3", "e4", etc.)
     const lastMove = board.moves.length
       ? board.moves[board.moves.length - 1].san
       : null;
@@ -53,7 +53,7 @@ function buildTree(boards: BoardState[], activeBoardId: string): TreeNode[] {
   return roots;
 }
 
-/** Recursive render node */
+//Recursive render node
 const NodeRow: React.FC<{
   node: TreeNode;
   depth: number;
