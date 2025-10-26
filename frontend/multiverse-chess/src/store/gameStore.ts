@@ -78,10 +78,12 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
         set((state) => {
             const boardIndex = state.boards.findIndex((b) => b.id === boardId);
+
             if (boardIndex === -1) return state;
 
             const boardCopy = new Chess(state.boards[boardIndex].chess.fen());
             const moveResult = boardCopy.move(move);
+
             if (!moveResult) return state; //Illegal move
 
             moveSuccess = true;
@@ -147,12 +149,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
             const siblings = state.boards.filter((b) => b.parentId === boardId);
             const newChildIndex = siblings.length + 1;
-
+            
             const newId = `${boardId}-${newChildIndex}`;
             const newLabel = `${baseBoard.label}.${newChildIndex}`;
-
             const clonedChess = new Chess(baseBoard.chess.fen());
-
             const newBoard: BoardState = {
                 id: newId,
                 parentId: baseBoard.id,
