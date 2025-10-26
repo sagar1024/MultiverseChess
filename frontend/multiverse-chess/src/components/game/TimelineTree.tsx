@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 import type { BoardState } from "@/store/gameStore";
 
 interface TimelineTreeProps {
@@ -7,7 +8,6 @@ interface TimelineTreeProps {
   onSelectBoard: (id: string) => void;
 }
 
-//A minimal tree node structure derived from BoardState
 interface TreeNode {
   id: string;
   parentId?: string | null;
@@ -16,12 +16,11 @@ interface TreeNode {
   isActive: boolean;
 }
 
-//Build a tree from flat board list
+//Build hierarchical tree from flat boards list
 function buildTree(boards: BoardState[], activeBoardId: string): TreeNode[] {
   const map = new Map<string, TreeNode>();
 
   for (const board of boards) {
-    //Derive the last move SAN (e.g., "Nf3", "e4", etc.)
     const lastMove = board.moves.length
       ? board.moves[board.moves.length - 1].san
       : null;
@@ -29,19 +28,13 @@ function buildTree(boards: BoardState[], activeBoardId: string): TreeNode[] {
     map.set(board.id, {
       id: board.id,
       parentId: board.parentId ?? null,
-      label:
-        board.id === "root"
-          ? "Start"
-          : lastMove
-          ? lastMove
-          : "Move",
+      label: board.label || (board.id === "root" ? "Start" : lastMove || "Move"),
       children: [],
       isActive: board.id === activeBoardId,
     });
   }
 
   const roots: TreeNode[] = [];
-
   for (const node of map.values()) {
     if (node.parentId && map.has(node.parentId)) {
       map.get(node.parentId)!.children.push(node);
@@ -49,7 +42,6 @@ function buildTree(boards: BoardState[], activeBoardId: string): TreeNode[] {
       roots.push(node);
     }
   }
-
   return roots;
 }
 
@@ -60,26 +52,37 @@ const NodeRow: React.FC<{
   onSelect: (id: string) => void;
 }> = ({ node, depth, onSelect }) => {
   return (
-    <div className="flex flex-col">
+    <motion.div
+      initial={{ opacity: 0, x: -10 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.2 }}
+      className="relative flex flex-col"
+    >
+      {/* Connecting line to parent */}
+      {depth > 0 && (
+        <div
+          className="absolute left-[6px] top-[-6px] bottom-0 w-px bg-gray-700"
+          style={{ marginLeft: `${depth * 16 - 8}px` }}
+        />
+      )}
+
       <div
-        className="flex items-center space-x-2"
+        className="flex items-center space-x-2 relative z-10"
         style={{ marginLeft: `${depth * 16}px` }}
       >
         <button
-          className={`px-3 py-1 rounded text-sm transition-all duration-200 ${
-            node.isActive
-              ? "bg-purple-600 text-white shadow-md"
-              : "bg-gray-700 text-gray-200 hover:bg-gray-600"
-          }`}
           onClick={() => onSelect(node.id)}
+          className={`px-3 py-1 rounded text-sm transition-all duration-200 border ${node.isActive
+            ? "bg-purple-600 text-white border-purple-400 shadow-lg shadow-purple-600/50"
+            : "bg-gray-800 text-gray-200 border-gray-700 hover:bg-gray-700"
+            }`}
         >
           {node.label}
         </button>
       </div>
 
-      {/* Render children */}
       {node.children.length > 0 && (
-        <div className="mt-1">
+        <div className="mt-1 space-y-1">
           {node.children.map((child) => (
             <NodeRow
               key={child.id}
@@ -90,10 +93,11 @@ const NodeRow: React.FC<{
           ))}
         </div>
       )}
-    </div>
+    </motion.div>
   );
 };
 
+//Main component
 const TimelineTree: React.FC<TimelineTreeProps> = ({
   boards,
   activeBoardId,
@@ -102,9 +106,9 @@ const TimelineTree: React.FC<TimelineTreeProps> = ({
   const roots = buildTree(boards, activeBoardId);
 
   return (
-    <div className="bg-gray-900 p-4 rounded-lg shadow-lg overflow-auto max-h-[26rem]">
+    <div className="bg-gray-900 p-4 rounded-lg shadow-lg overflow-auto max-h-[26rem] border border-gray-800">
       <h3 className="text-lg font-semibold mb-3 text-purple-400">
-        Timeline Tree
+        Timeline Tree 🌌
       </h3>
 
       {roots.length === 0 ? (
