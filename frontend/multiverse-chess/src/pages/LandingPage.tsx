@@ -82,7 +82,7 @@ const LandingPage: React.FC = () => {
                         maxWidth: "80rem",
                         margin: "0 auto",
                     }} className="text-2xl md:text-3xl text-gray-300 max-w-5xl mx-auto leading-relaxed text-center">
-                        A chess variant where every move creates a new reality — spawns a new world in an alternate universe! In this game of infinite possibilities, every world decides your fate. Split realities, command multiple boards and outsmart your opponent. CONQUER THE MULTIVERSE!
+                        A chess variant where every move creates a new reality — a new world in an alternate universe! In this game of infinite possibilities, every world decides your fate. Split realities, command multiple boards and outsmart your opponent. CONQUER THE MULTIVERSE!
                     </p>
                 </motion.div>
 

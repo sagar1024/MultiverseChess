@@ -108,7 +108,7 @@ const TimelineTree: React.FC<TimelineTreeProps> = ({
   return (
     <div className="bg-gray-900 p-4 rounded-lg shadow-lg overflow-auto max-h-[26rem] border border-gray-800">
       <h3 className="text-lg font-semibold mb-3 text-purple-400">
-        Timeline Tree 🌌
+        Timeline Tree
       </h3>
 
       {roots.length === 0 ? (
