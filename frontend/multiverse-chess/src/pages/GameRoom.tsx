@@ -88,13 +88,25 @@ const GameRoom: React.FC = () => {
   }
 
   //Tracking how many moves the current player has made this turn
-  const [movesThisTurn, setMovesThisTurn] = useState(0);
+  // const [movesThisTurn, setMovesThisTurn] = useState(0);
+
+  // Tracks which boards the player has moved in this turn
+  const [movedBoardsThisTurn, setMovedBoardsThisTurn] = useState<string[]>([]);
+
 
   //Pass turn manually or after 3 moves
-  const passTurn = () => {
-    setMovesThisTurn(0);
+  // const passTurn = () => {
+  //   setMovesThisTurn(0);
 
-    //Flip turn logic — toggle between "white" and "black"
+  //   //Flip turn logic — toggle between "white" and "black"
+  //   useGameStore.setState((state) => ({
+  //     activeTurn: state.activeTurn === "white" ? "black" : "white",
+  //   }));
+  // };
+
+  const passTurn = () => {
+    setMovedBoardsThisTurn([]);
+
     useGameStore.setState((state) => ({
       activeTurn: state.activeTurn === "white" ? "black" : "white",
     }));
@@ -111,6 +123,31 @@ const GameRoom: React.FC = () => {
   //     return false;
   //   }
   // };
+
+  //Handle move
+  // const handleMove = (from: string, to: string): boolean => {
+  //   if (!activeBoard || gameStatus !== "playing") return false;
+
+  //   try {
+  //     const success = makeMove(activeBoard.id, { from, to });
+  //     if (!success) return false;
+
+  //     //Increment local move count
+  //     setMovesThisTurn((prev) => {
+  //       const newCount = prev + 1;
+  //       if (newCount >= 3) {
+  //         passTurn(); //Auto-pass after 3 moves
+  //       }
+  //       return newCount >= 3 ? 0 : newCount;
+  //     });
+
+  //     return true;
+  //   } catch {
+  //     return false;
+  //   }
+  // };
+
+  //Handle move
   const handleMove = (from: string, to: string): boolean => {
     if (!activeBoard || gameStatus !== "playing") return false;
 
@@ -118,13 +155,25 @@ const GameRoom: React.FC = () => {
       const success = makeMove(activeBoard.id, { from, to });
       if (!success) return false;
 
-      //Increment local move count
-      setMovesThisTurn((prev) => {
-        const newCount = prev + 1;
-        if (newCount >= 3) {
-          passTurn(); //Auto-pass after 3 moves
+      // Track which boards have received a move this turn
+      setMovedBoardsThisTurn((prev) => {
+        const updated = prev.includes(activeBoard.id)
+          ? prev
+          : [...prev, activeBoard.id];
+
+        const totalBoardsMoved = updated.length;
+        // Count all boards that are still active and belong to the current player’s turn
+        const totalBoardsAvailable = boards.filter(
+          (b) => b.status === "active"
+        ).length;
+
+        // Auto-pass if player made one move in each available universe (or reached 3 universes)
+        if (totalBoardsMoved >= totalBoardsAvailable || totalBoardsMoved >= 3) {
+          passTurn();
+          return [];
         }
-        return newCount >= 3 ? 0 : newCount;
+
+        return updated;
       });
 
       return true;
@@ -132,6 +181,7 @@ const GameRoom: React.FC = () => {
       return false;
     }
   };
+
 
   //Detect game over from board states
   useEffect(() => {
@@ -214,16 +264,29 @@ const GameRoom: React.FC = () => {
             />
 
             <div className="flex gap-3">
-              <button onClick={() => createNewUniverse(activeBoardId)}
+              {/* <button onClick={() => createNewUniverse(activeBoardId)} */}
+              <button
+                onClick={() => {
+                  createNewUniverse(activeBoardId);
+                  //When a new board is created, player can move there this turn too
+                  //You don’t need to modify the inner logic of createNewUniverse here
+                  //That’s handled in store
+                }}
                 className="px-4 py-2 rounded-lg font-semibold bg-blue-600 hover:bg-blue-700 text-white shadow-md">
                 Create New Universe
               </button>
 
-              <button onClick={passTurn}
-                disabled={movesThisTurn === 0}
-                className={`px-4 py-2 rounded-lg font-semibold transition ${movesThisTurn === 0 ? "bg-gray-700 text-gray-400 cursor-not-allowed" : "bg-purple-600 hover:bg-purple-700 text-white shadow-md"}`}>
-                Pass Turn ({movesThisTurn}/3)
+              <button
+                onClick={passTurn}
+                disabled={movedBoardsThisTurn.length === 0}
+                className={`px-4 py-2 rounded-lg font-semibold transition ${movedBoardsThisTurn.length === 0
+                  ? "bg-gray-700 text-gray-400 cursor-not-allowed"
+                  : "bg-purple-600 hover:bg-purple-700 text-white shadow-md"
+                  }`}
+              >
+                Pass Turn ({movedBoardsThisTurn.length}/3)
               </button>
+
             </div>
           </div>
         </div>
