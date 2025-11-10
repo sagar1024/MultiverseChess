@@ -8,11 +8,6 @@ import { useGameStore } from "../store/gameStore";
 const LandingPage: React.FC = () => {
     const navigate = useNavigate();
 
-    // const handleCreateGame = () => {
-    //     const gameId = uuidv4().slice(0, 8);
-    //     createGame(gameId, "Host");
-    //     navigate(`/game/${gameId}`);
-    // };
     const handleCreateGame = () => {
         const gameId = uuidv4().slice(0, 8);
         const initGame = useGameStore.getState().initGame; //Access Zustand action
