@@ -71,6 +71,8 @@ const GameRoom: React.FC = () => {
     //Instead it should show which side won, like white or black
     const winner = side === "white" ? "Guest" : "Host";
 
+    //How does this count the total wins and losses of each player?
+    //Implementation pending for keeping a track of wins and losses
     const payload: GameOverState = {
       winner: winner as GameOverState["winner"],
       score: winner === "Host" ? "1 - 0" : "0 - 1",
@@ -95,11 +97,11 @@ const GameRoom: React.FC = () => {
   //Tracks which boards the player has moved in this turn
   const [movedBoardsThisTurn, setMovedBoardsThisTurn] = useState<string[]>([]);
 
-
   //Pass turn manually or after 3 moves
+  //This doesnt work as planned for now, it only counts PLYs and flips the board after 3 PLYs
+  //I want a player to create at max 3 universes/boards and one move in each of them
   const passTurn = () => {
     setMovedBoardsThisTurn([]);
-
     useGameStore.setState((state) => ({
       activeTurn: state.activeTurn === "white" ? "black" : "white",
     }));
