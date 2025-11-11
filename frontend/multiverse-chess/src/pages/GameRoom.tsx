@@ -63,7 +63,12 @@ const GameRoom: React.FC = () => {
   });
 
   //Handle time over event
+  //If white’s clock runs out, black wins, and vice versa. It builds a GameOverState payload
+  //Ends the game in the store and redirects to the “Game Over” page
   function handleTimeOver(side: "white" | "black") {
+
+    //There is no logic in this. This assumes that when white looses by time, it should show "Guest" won
+    //Instead it should show which side won, like white or black
     const winner = side === "white" ? "Guest" : "Host";
 
     const payload: GameOverState = {
