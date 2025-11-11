@@ -148,7 +148,6 @@ const GameRoom: React.FC = () => {
     }
   };
 
-
   //Detect game over from board states
   useEffect(() => {
     const allDone = boards.every((b) => b.status !== "active");
