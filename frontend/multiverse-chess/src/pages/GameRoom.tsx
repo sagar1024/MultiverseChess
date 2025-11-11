@@ -149,12 +149,15 @@ const GameRoom: React.FC = () => {
   };
 
   //Detect game over from board states
+  //If all boards are “finished” (no active games left), automatically determine the winner
+  //AND redirect to “Game Over” page
+  //Winner is decided based on which side has more checkmates across universes
   useEffect(() => {
     const allDone = boards.every((b) => b.status !== "active");
     if (allDone && gameStatus !== "finished") {
       endGame();
 
-      // Compute results
+      //Compute results
       const whiteWins = boards.filter((b) => b.status === "checkmate" && b.chess.turn() === "b").length;
       const blackWins = boards.filter((b) => b.status === "checkmate" && b.chess.turn() === "w").length;
       const draws = boards.filter((b) => b.status === "draw" || b.status === "stalemate").length;
