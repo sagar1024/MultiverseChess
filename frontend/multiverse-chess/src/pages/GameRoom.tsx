@@ -87,23 +87,11 @@ const GameRoom: React.FC = () => {
     navigate(`/game/${gameId}/over`, { state: payload });
   }
 
-  //Tracking how many moves the current player has made this turn
-  // const [movesThisTurn, setMovesThisTurn] = useState(0);
-
-  // Tracks which boards the player has moved in this turn
+  //Tracks which boards the player has moved in this turn
   const [movedBoardsThisTurn, setMovedBoardsThisTurn] = useState<string[]>([]);
 
 
   //Pass turn manually or after 3 moves
-  // const passTurn = () => {
-  //   setMovesThisTurn(0);
-
-  //   //Flip turn logic — toggle between "white" and "black"
-  //   useGameStore.setState((state) => ({
-  //     activeTurn: state.activeTurn === "white" ? "black" : "white",
-  //   }));
-  // };
-
   const passTurn = () => {
     setMovedBoardsThisTurn([]);
 
@@ -113,41 +101,6 @@ const GameRoom: React.FC = () => {
   };
 
   //Handle move
-  // const handleMove = (from: string, to: string): boolean => {
-  //   if (!activeBoard || gameStatus !== "playing") return false;
-
-  //   try {
-  //     makeMove(activeBoard.id, { from, to });
-  //     return true;
-  //   } catch {
-  //     return false;
-  //   }
-  // };
-
-  //Handle move
-  // const handleMove = (from: string, to: string): boolean => {
-  //   if (!activeBoard || gameStatus !== "playing") return false;
-
-  //   try {
-  //     const success = makeMove(activeBoard.id, { from, to });
-  //     if (!success) return false;
-
-  //     //Increment local move count
-  //     setMovesThisTurn((prev) => {
-  //       const newCount = prev + 1;
-  //       if (newCount >= 3) {
-  //         passTurn(); //Auto-pass after 3 moves
-  //       }
-  //       return newCount >= 3 ? 0 : newCount;
-  //     });
-
-  //     return true;
-  //   } catch {
-  //     return false;
-  //   }
-  // };
-
-  //Handle move
   const handleMove = (from: string, to: string): boolean => {
     if (!activeBoard || gameStatus !== "playing") return false;
 
@@ -155,19 +108,18 @@ const GameRoom: React.FC = () => {
       const success = makeMove(activeBoard.id, { from, to });
       if (!success) return false;
 
-      // Track which boards have received a move this turn
+      //Track which boards have received a move this turn
       setMovedBoardsThisTurn((prev) => {
-        const updated = prev.includes(activeBoard.id)
-          ? prev
-          : [...prev, activeBoard.id];
+        const updated = prev.includes(activeBoard.id) ? prev : [...prev, activeBoard.id];
 
         const totalBoardsMoved = updated.length;
-        // Count all boards that are still active and belong to the current player’s turn
+
+        //Count all boards that are still active and belong to the current player’s turn
         const totalBoardsAvailable = boards.filter(
           (b) => b.status === "active"
         ).length;
 
-        // Auto-pass if player made one move in each available universe (or reached 3 universes)
+        //Auto-pass if player made one move in each available universe (or reached 3 universes)
         if (totalBoardsMoved >= totalBoardsAvailable || totalBoardsMoved >= 3) {
           passTurn();
           return [];
@@ -308,9 +260,9 @@ const GameRoom: React.FC = () => {
           {/* Timeline Tree */}
           <div className="mt-6 flex-1 overflow-auto">
             <TimelineTree
-              boards={boards}
+            boards={boards}
               activeBoardId={activeBoardId}
-              onSelectBoard={(id) => setActiveBoard(id)}
+              onSelectBoard={(id: string) => setActiveBoard(id)}
             />
           </div>
         </div>
