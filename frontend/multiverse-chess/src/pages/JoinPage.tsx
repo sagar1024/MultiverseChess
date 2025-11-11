@@ -18,8 +18,7 @@ const JoinPage: React.FC = () => {
             const parts = input.split("/game/");
             gameId = parts[1]?.split("/")[0] || "";
         } else {
-            //Otherwise assume it's just the code
-            gameId = input.trim();
+            gameId = input.trim(); //Otherwise assume it's just the code
         }
 
         if (!gameId) {
