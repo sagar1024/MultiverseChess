@@ -237,8 +237,7 @@ const GameRoom: React.FC = () => {
                 onClick={() => {
                   createNewUniverse(activeBoardId);
                   //When a new board is created, player can move there this turn too
-                  //You don’t need to modify the inner logic of createNewUniverse here
-                  //That’s handled in store
+                  //No implementation of createNewUniverse needed here, handled in store
                 }}
                 className="px-4 py-2 rounded-lg font-semibold bg-blue-600 hover:bg-blue-700 text-white shadow-md">
                 Create New Universe
