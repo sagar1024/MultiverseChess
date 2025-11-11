@@ -108,6 +108,13 @@ const GameRoom: React.FC = () => {
   };
 
   //Handle move
+  //Executes a move on the active board via makeMove
+  //If successful, it updates movedBoardsThisTurn
+
+  //What it should actually do
+  //Keep track of all boards created in this game and
+  //Check which boards currently has my turn
+  //Handle moves and update the state of all boards
   const handleMove = (from: string, to: string): boolean => {
     if (!activeBoard || gameStatus !== "playing") return false;
 
