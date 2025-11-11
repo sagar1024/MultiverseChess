@@ -98,35 +98,6 @@ const NodeRow: React.FC<{
   );
 };
 
-//Here, TimelineTree doesn’t take any props
-//It directly pulls from Zustand
-
-// const TimelineTree: React.FC = () => {
-//   const { boards, activeBoardId, setActiveBoard } = useGameStore();
-//   const roots = buildTree(boards, activeBoardId);
-//   return (
-//     <div className="bg-gray-900 p-4 rounded-lg shadow-lg overflow-auto max-h-[26rem] border border-gray-800">
-//       <h3 className="text-lg font-semibold mb-3 text-purple-400">
-//         Timeline Tree
-//       </h3>
-//       {roots.length === 0 ? (
-//         <p className="text-gray-500 text-sm">No moves yet</p>
-//       ) : (
-//         <div className="space-y-2">
-//           {roots.map((root) => (
-//             <NodeRow
-//               key={root.id}
-//               node={root}
-//               depth={0}
-//               onSelect={setActiveBoard}
-//             />
-//           ))}
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
 //Allowing TimelineTree component signature to accept props
 const TimelineTree: React.FC<TimelineTreeProps> = ({ boards, activeBoardId, onSelectBoard }) => {
   const roots = buildTree(boards, activeBoardId);
