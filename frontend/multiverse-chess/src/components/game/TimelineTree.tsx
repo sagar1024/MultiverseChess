@@ -28,7 +28,6 @@ function buildTree(boards: BoardState[], activeBoardId: string): TreeNode[] {
     map.set(board.id, {
       id: board.id,
       parentId: board.parentId ?? null,
-      //label: board.label || (board.id === "root" ? "Start" : lastMove || "Move"),
       label: board.id === "root" ? "Start" : lastMove || `Board ${board.id.split("-").pop()}`,
       children: [],
       isActive: board.id === activeBoardId,
