@@ -1,5 +1,5 @@
 //Game configuration
-export const DEFAULT_TIME_PER_PLAYER = 300; // 5 min
+export const DEFAULT_TIME_PER_PLAYER = 300;
 export const DEFAULT_MAX_MOVES_PER_TURN = 3;
 
 //Theme colors
