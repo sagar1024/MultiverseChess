@@ -6,7 +6,6 @@ export interface StoredGame {
 }
 
 const STORAGE_KEY = "multiverse_chess_games";
-
 function loadAll(): Record<string, StoredGame> {
     try {
         return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
