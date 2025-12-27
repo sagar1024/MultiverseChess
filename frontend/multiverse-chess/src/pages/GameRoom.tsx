@@ -275,7 +275,7 @@ const GameRoom: React.FC = () => {
           {/* Timeline Tree */}
           <div className="mt-6 flex-1 overflow-auto">
             <TimelineTree
-            boards={boards}
+              boards={boards}
               activeBoardId={activeBoardId}
               onSelectBoard={(id: string) => setActiveBoard(id)}
             />
