@@ -13,7 +13,14 @@ const LandingPage: React.FC = () => {
         const initGame = useGameStore.getState().initGame; //Access Zustand action
 
         //Initialize game in Zustand
-        initGame("Host", "Guest", 600);
+        //initGame("Host", "Guest", 600);
+
+        //Decide what color the player should start as
+        //If you want the player to be white
+        initGame("white");
+
+        //OR Black
+        //initGame("black");
 
         //Also store in localStorage for fallback
         createGame(gameId, "Host");
