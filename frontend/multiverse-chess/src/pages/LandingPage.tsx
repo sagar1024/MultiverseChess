@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { motion } from "framer-motion";
@@ -8,6 +8,11 @@ import { useGameStore } from "../store/gameStore";
 const LandingPage: React.FC = () => {
     const navigate = useNavigate();
 
+    //const [playerColor, setPlayerColor] = useState<"white" | "black">("white");
+    const [showSetupModal, setShowSetupModal] = useState(false);
+    const [playerColor, setPlayerColor] = useState<"white" | "black">("white");
+    const [engineLevel, setEngineLevel] = useState<"easy" | "medium" | "hard">("easy");
+
     const handleCreateGame = () => {
         const gameId = uuidv4().slice(0, 8);
         const initGame = useGameStore.getState().initGame; //Access Zustand action
@@ -15,12 +20,8 @@ const LandingPage: React.FC = () => {
         //Initialize game in Zustand
         //initGame("Host", "Guest", 600);
 
-        //Decide what color the player should start as
-        //If you want the player to be white
-        initGame("white");
-
-        //OR Black
-        //initGame("black");
+        //Allowing player to choose the color
+        initGame(playerColor);
 
         //Also store in localStorage for fallback
         createGame(gameId, "Host");
@@ -104,8 +105,8 @@ const LandingPage: React.FC = () => {
                     }}>
 
                     {/* Create Game Button */}
-                    <button
-                        onClick={handleCreateGame}
+                    {/* <button onClick={handleCreateGame} */}
+                    <button onClick={() => setShowSetupModal(true)}
                         style={{
                             padding: "28px 50px",
                             fontSize: "25px",
@@ -208,6 +209,76 @@ const LandingPage: React.FC = () => {
                     </ul>
                 </motion.div>
             </main>
+
+            {/* Modal popup window asking user to choose color and engine level */}
+            {showSetupModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+                    <motion.div
+                        initial={{ scale: 0.9, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.25 }}
+                        className="bg-[#12121c] border border-purple-500/40 rounded-2xl p-8 w-[420px] shadow-2xl"
+                    >
+                        <h2 className="text-2xl font-bold text-purple-400 mb-6 text-center">
+                            Game Setup
+                        </h2>
+
+                        {/* Color Selection */}
+                        <div className="mb-6">
+                            <p className="text-gray-300 mb-3 font-semibold">Choose your color</p>
+                            <div className="flex gap-4">
+                                {(["white", "black"] as const).map(color => (
+                                    <button
+                                        key={color}
+                                        onClick={() => setPlayerColor(color)}
+                                        className={`flex-1 py-3 rounded-lg font-bold border transition
+                                            ${playerColor === color ? "bg-purple-600 text-white border-purple-400 shadow-lg"
+                                                : "bg-gray-800 text-gray-300 border-gray-700 hover:bg-gray-700"
+                                            }`}
+                                    >
+                                        {color.toUpperCase()}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Engine Level */}
+                        <div className="mb-8">
+                            <p className="text-gray-300 mb-3 font-semibold">Engine difficulty</p>
+                            <div className="flex gap-3">
+                                {(["easy", "medium", "hard"] as const).map(level => (
+                                    <button
+                                        key={level}
+                                        onClick={() => setEngineLevel(level)}
+                                        className={`flex-1 py-2 rounded-lg capitalize border transition
+                                            ${engineLevel === level ? "bg-purple-600 text-white border-purple-400"
+                                                : "bg-gray-800 text-gray-300 border-gray-700 hover:bg-gray-700"
+                                            }`}
+                                    >
+                                        {level}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Actions */}
+                        <div className="flex gap-4">
+                            <button
+                                onClick={() => setShowSetupModal(false)}
+                                className="flex-1 py-2 rounded-lg bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleCreateGame}
+                                className="flex-1 py-2 rounded-lg bg-purple-600 text-white font-bold hover:bg-purple-700 transition"
+                            >
+                                Start Game
+                            </button>
+                        </div>
+                    </motion.div>
+                </div>
+            )}
         </div>
     );
 };
