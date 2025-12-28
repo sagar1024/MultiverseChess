@@ -15,18 +15,15 @@ const LandingPage: React.FC = () => {
 
     const handleCreateGame = () => {
         const gameId = uuidv4().slice(0, 8);
-        const initGame = useGameStore.getState().initGame; //Access Zustand action
+        const initGame = useGameStore.getState().initGame;
 
-        //Initialize game in Zustand
-        //initGame("Host", "Guest", 600);
+        initGame(playerColor, engineLevel);
+        setShowSetupModal(false);
 
-        //Allowing player to choose the color
-        initGame(playerColor);
-
-        //Also store in localStorage for fallback
-        createGame(gameId, "Host");
-
-        //Navigate to the new game
+        //Only for multiplayer, persistence, reloading and sharing links between devices
+        //Not needed anymore
+        //createGame(gameId, "Host");
+        
         navigate(`/game/${gameId}`);
     };
 
