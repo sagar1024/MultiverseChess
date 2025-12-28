@@ -4,6 +4,8 @@ import type { Move } from "chess.js";
 import { DEFAULT_MAX_MOVES_PER_TURN } from "@/utils/constants";
 import { cloneChess } from "@/utils/chessHelpers";
 
+export type EngineLevel = "easy" | "medium" | "hard";
+
 function getBoardStatus(chess: Chess): BoardState["status"] {
   if (chess.isCheckmate()) return "checkmate";
   if (chess.isStalemate()) return "stalemate";
