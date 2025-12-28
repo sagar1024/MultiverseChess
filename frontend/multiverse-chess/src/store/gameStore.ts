@@ -27,6 +27,8 @@ interface GameStore {
   activeBoardId: string;
 
   playerColor: "white" | "black";
+  engineLevel: EngineLevel;
+
   turn: "player" | "engine";
   gameStatus: "playing" | "finished";
 
@@ -34,7 +36,11 @@ interface GameStore {
   maxMovesPerTurn: number;
 
   /* ===== Actions ===== */
-  initGame: (playerColor: "white" | "black") => void;
+
+  initGame: (
+    playerColor: "white" | "black",
+    engineLevel: EngineLevel
+  ) => void;
 
   makePlayerMove: (
     boardId: string,
@@ -55,6 +61,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   boards: [],
   activeBoardId: "",
   playerColor: "white",
+  engineLevel: "easy",
   turn: "player",
   gameStatus: "playing",
 
@@ -63,7 +70,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
   /* ========= INIT ========= */
 
-  initGame: (playerColor) => {
+  initGame: (playerColor, engineLevel) => {
     const chess = new Chess();
 
     set({
@@ -77,6 +84,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       ],
       activeBoardId: "U1",
       playerColor,
+      engineLevel,
       turn: playerColor === "white" ? "player" : "engine",
       moveCountThisTurn: 0,
       gameStatus: "playing",
@@ -160,7 +168,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   /* ========= ENGINE MOVE ========= */
 
   engineMoveAllBoards: () => {
-    const { boards, playerColor } = get();
+    const { boards, playerColor, engineLevel } = get();
     const engineColor = playerColor === "white" ? "b" : "w";
 
     const updatedBoards = boards.map((board) => {
@@ -169,11 +177,38 @@ export const useGameStore = create<GameStore>((set, get) => ({
       const chess = cloneChess(board.chess);
       if (chess.turn() !== engineColor) return board;
 
+      //const moves = chess.moves({ verbose: true });
+      //if (moves.length === 0) return board;
+
+      //TEMP ENGINE: random legal move
+      //const move = moves[Math.floor(Math.random() * moves.length)];
+
       const moves = chess.moves({ verbose: true });
       if (moves.length === 0) return board;
 
-      // 🚧 TEMP ENGINE: random legal move
-      const move = moves[Math.floor(Math.random() * moves.length)];
+      let move;
+
+      //Difficulty-based choice
+      if (engineLevel === "easy") {
+        //Pure random
+        move = moves[Math.floor(Math.random() * moves.length)];
+      } else if (engineLevel === "medium") {
+        //Prefer captures
+        const captures = moves.filter((m) => m.captured);
+        move =
+          captures.length > 0
+            ? captures[Math.floor(Math.random() * captures.length)]
+            : moves[Math.floor(Math.random() * moves.length)];
+      } else {
+        //Hard: shallow material lookahead (very simple)
+        move = moves.sort((a, b) => {
+          const score = (m: any) =>
+            (m.captured ? 10 : 0) +
+            (m.promotion ? 5 : 0);
+          return score(b) - score(a);
+        })[0];
+      }
+
       const result = chess.move(move);
 
       return {
