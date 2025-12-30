@@ -10,7 +10,7 @@ const JoinPage: React.FC = () => {
         e.preventDefault();
 
         if (!input.trim()) return;
-
+        
         let gameId = "";
 
         //If full link is pasted, extract ID
