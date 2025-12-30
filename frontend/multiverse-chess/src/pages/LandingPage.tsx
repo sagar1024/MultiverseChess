@@ -102,7 +102,6 @@ const LandingPage: React.FC = () => {
                     }}>
 
                     {/* Create Game Button */}
-                    {/* <button onClick={handleCreateGame} */}
                     <button onClick={() => setShowSetupModal(true)}
                         style={{
                             padding: "28px 50px",
