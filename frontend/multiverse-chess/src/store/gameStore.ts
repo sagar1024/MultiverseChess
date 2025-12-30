@@ -13,7 +13,7 @@ function getBoardStatus(chess: Chess): BoardState["status"] {
   return "active";
 }
 
-/* ================= TYPES ================= */
+//TYPES
 
 export interface BoardState {
   id: string;
@@ -35,7 +35,7 @@ interface GameStore {
   moveCountThisTurn: number;
   maxMovesPerTurn: number;
 
-  /* ===== Actions ===== */
+  //Actions
 
   initGame: (
     playerColor: "white" | "black",
@@ -55,7 +55,7 @@ interface GameStore {
   setActiveBoard: (boardId: string) => void;
 }
 
-/* ================= STORE ================= */
+//STORE
 
 export const useGameStore = create<GameStore>((set, get) => ({
   boards: [],
@@ -68,7 +68,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   moveCountThisTurn: 0,
   maxMovesPerTurn: DEFAULT_MAX_MOVES_PER_TURN,
 
-  /* ========= INIT ========= */
+  //INIT
 
   initGame: (playerColor, engineLevel) => {
     const chess = new Chess();
@@ -91,7 +91,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     });
   },
 
-  /* ========= PLAYER MOVE ========= */
+  //PLAYER MOVE
 
   makePlayerMove: (boardId, move) => {
     const { boards, turn, moveCountThisTurn, maxMovesPerTurn } = get();
@@ -128,7 +128,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     return true;
   },
 
-  /* ========= CREATE UNIVERSE ========= */
+  //CREATE UNIVERSE
 
   createUniverseFrom: (boardId) => {
     const { boards, moveCountThisTurn, maxMovesPerTurn, turn } = get();
@@ -153,7 +153,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     });
   },
 
-  /* ========= PASS TURN ========= */
+  //PASS TURN
 
   passTurn: () => {
     const { turn } = get();
@@ -165,7 +165,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     });
   },
 
-  /* ========= ENGINE MOVE ========= */
+  //ENGINE MOVE
 
   engineMoveAllBoards: () => {
     const { boards, playerColor, engineLevel } = get();
