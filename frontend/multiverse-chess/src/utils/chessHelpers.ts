@@ -5,18 +5,18 @@ import type { Move, Square } from "chess.js";
    BASIC MOVE HELPERS
 ========================= */
 
-// Check if a move is legal
+//Check if a move is legal
 export const isMoveLegal = (chess: Chess, from: Square, to: Square) => {
   const moves = chess.moves({ square: from, verbose: true });
   return moves.some((m) => m.to === to);
 };
 
-// Get all legal moves
+//Get all legal moves
 export const getLegalMoves = (chess: Chess): Move[] => {
   return chess.moves({ verbose: true }) as Move[];
 };
 
-// Clone a Chess instance safely
+//Clone a Chess instance safely
 export const cloneChess = (chess: Chess) => {
   return new Chess(chess.fen());
 };
@@ -61,13 +61,13 @@ export const getEngineMove = (chess: Chess): Move | null => {
   const moves = chess.moves({ verbose: true }) as Move[];
   if (moves.length === 0) return null;
 
-  // Prefer captures
+  //Prefer captures
   const captures = moves.filter((m) => m.captured);
   if (captures.length > 0) {
     return captures[Math.floor(Math.random() * captures.length)];
   }
 
-  // Otherwise random
+  //Otherwise random
   return moves[Math.floor(Math.random() * moves.length)];
 };
 
