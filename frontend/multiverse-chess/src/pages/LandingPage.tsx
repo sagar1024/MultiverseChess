@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { motion } from "framer-motion";
-import { createGame } from "../utils/storage";
+//import { createGame } from "../utils/storage";
 import { useGameStore } from "../store/gameStore";
 
 const LandingPage: React.FC = () => {
