@@ -18,3 +18,29 @@ Every universe is an independent chess board
 All universes are evaluated simultaneously to determine the final outcome
 
 The goal is to outperform the engine across timelines, not just on a single board.
+
+Gameplay Rules
+
+The player may:
+
+Make up to 3 legal moves per turn
+
+Stop early and pass the turn at any time
+
+Each move can:
+
+Continue the current universe
+
+Or branch into a new one
+
+After the player’s turn:
+
+The engine plays one move on every active board
+
+Finished boards (checkmate, draw, stalemate):
+
+Remain frozen
+
+Do not affect ongoing timelines
+
+The game ends when all universes are complete.
