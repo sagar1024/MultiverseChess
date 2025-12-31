@@ -1,46 +1,53 @@
-♟️ Multiverse Chess
+# Multiverse Chess
 
 Multiverse Chess is a single-player chess variant where every decision creates a new universe.
-Instead of committing to one move, the player can explore multiple timelines at once, branching the game into parallel boards while facing a computer-controlled chess engine.
+Instead of committing to one move, the player can explore multiple timelines at once, branching the game into parallel boards while facing a computer-controlled chess engine. This project blends strategic depth, parallel game states, and AI decision-making into a unique chess experience unlike traditional formats.
 
-This project blends strategic depth, parallel game states, and AI decision-making into a unique chess experience unlike traditional formats.
+---
 
-Core Concept
+### Core Concept
 
 In Multiverse Chess, a single move doesn’t just change the board — it creates a new reality.
 
-The player can make up to 3 consecutive moves per turn
+1. The player can make up to 3 consecutive moves per turn
 
-Each move may branch the game into a new universe
+2. Each move may branch the game into a new universe
 
-Every universe is an independent chess board
+3. Every universe is an independent chess board
 
-All universes are evaluated simultaneously to determine the final outcome
+4. All universes are evaluated simultaneously to determine the final outcome
 
 The goal is to outperform the engine across timelines, not just on a single board.
 
-Gameplay Rules
+---
 
-The player may:
+### Gameplay Rules
 
-Make up to 3 legal moves per turn
+1. The player may: Make up to 3 legal moves per turn OR Stop early and pass the turn at any time
 
-Stop early and pass the turn at any time
+2. Each move can: Continue the current universe OR branch into a new one
 
-Each move can:
+3. After the player’s turn: The engine plays one move on every active board
 
-Continue the current universe
-
-Or branch into a new one
-
-After the player’s turn:
-
-The engine plays one move on every active board
-
-Finished boards (checkmate, draw, stalemate):
-
-Remain frozen
-
-Do not affect ongoing timelines
+4. Finished boards (checkmate, draw, stalemate): Remain frozen AND Do not affect ongoing timelines
 
 The game ends when all universes are complete.
+
+---
+
+### Tech Stack
+
+React + TypeScript
+Tailwind CSS
+Zustand
+chess.js
+react-chessboard
+Framer Motion
+
+# Architecture
+
+Independent board states per universe
+Centralized game state store
+Engine moves calculated per board
+No server required (offline-friendly)
+
