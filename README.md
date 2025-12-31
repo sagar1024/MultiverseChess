@@ -38,16 +38,24 @@ The game ends when all universes are complete.
 ### Tech Stack
 
 React + TypeScript
+
 Tailwind CSS
+
 Zustand
+
 chess.js
+
 react-chessboard
+
 Framer Motion
 
 # Architecture
 
 Independent board states per universe
+
 Centralized game state store
+
 Engine moves calculated per board
+
 No server required (offline-friendly)
 
